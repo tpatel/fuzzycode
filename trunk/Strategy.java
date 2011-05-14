@@ -9,7 +9,7 @@ public abstract class Strategy {
 	/**
 	 * Appelé a l'activation de la strategie.
 	 */
-	public abstract void start(Proxy proxy);
+	public abstract void start();
 	/**
 	 * Appelé a la desactivation de la strategie.
 	 */
