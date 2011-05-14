@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Cell {
 	private Fruit fruit;
-	private Map<Integer, Equipment> equipments;
+	private List<Equipment> equipments;
 	private Building building;
 	private Chest chest;
 	private SugarDrop sugarDrop;
@@ -17,12 +17,12 @@ public class Cell {
 		this.fruit = fruit;
 	}
 	
-	public void addEquipment(Integer id, Equipment equip) {
-		this.equipments.put(id, equip);
+	public void addEquipment(Equipment equip) {
+		this.equipments.add(equip);
 	}
 	
-	public void rmEquipment(Integer id) {
-		this.equipments.remove(id);
+	public void removeEquipment(Equipment equip) {
+		this.equipments.remove(equip);
 	}
 	
 	public void setBuilding(Building building) {
@@ -97,7 +97,7 @@ public class Cell {
 		return this.fruit;
 	}
 	
-	public Map<Integer, Equipment> getEquipments() {
+	public List<Equipment> getEquipments() {
 		return this.equipments;
 	}
 	
