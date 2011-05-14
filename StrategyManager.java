@@ -1,5 +1,10 @@
+package fuzzycode;
+
+import java.util.List;
+
 public class StrategyManager {
-   public void run();
+   public void run() {
+}
    
    // strategies en activite 
    private List<Strategy> runningStrategies;
