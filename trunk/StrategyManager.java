@@ -2,6 +2,7 @@ package fuzzycode;
 
 import game.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -62,10 +63,11 @@ public class StrategyManager implements FruitSaladAi {
 	public void stop(){} // JAVAjavajavajavaJAVAjavaJAVAjavaaaaa
 
 	@Override
-	public void initGame(Integer[][] architecture, int[][] fruits, int[][] arg2, int buildings,	int limitCherry, int limitKiwi, int limitNut, int vitaminGoal, int maxNbTurns) {
+	public void initGame(int[][] architecture, int[][] fruits, int[][] arg2, int buildings,	int limitCherry, int limitKiwi, int limitNut, int vitaminGoal, int maxNbTurns) {
 		// creation de la map
 		Proxy.getProxy().initMap(architecture, fruits, buildings, limitCherry, limitKiwi, limitNut, vitaminGoal, maxNbTurns);
 		// ajouter ici les différentes stratégies
+		pendingStrategies = new ArrayList<Strategy>();
 		pendingStrategies.add( new DummyStrategy() );
 	}
 

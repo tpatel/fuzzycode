@@ -94,10 +94,10 @@ public abstract class Strategy {
     
     protected void updateDangerLevel(){
     	Proxy ProxyAPI = Proxy.getProxy();
-    	List<Fruit> enemies = ProxyAPI.getEnemyFruits();
-    	for( Fruit enemy : enemies ){
+    	//List<Fruit> enemies = ProxyAPI.getEnemyFruits();
+    	//for( Fruit enemy : enemies ){
     		
-    	}
+    	//}
       
     }
     
