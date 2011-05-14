@@ -239,7 +239,7 @@ public class Proxy {
 
 			Fruit fruitModifie = fruits.get(identifiant);
 			if (fruitModifie != null) {
-				fruitModifie.setDefence(modifiedFruits[i][Api.OBJECT_LIFE]);
+				fruitModifie.setDefense(modifiedFruits[i][Api.OBJECT_LIFE]);
 				fruitModifie.setHp(modifiedFruits[i][Api.OBJECT_LIFE]);
 			}
 		}
@@ -356,7 +356,7 @@ public class Proxy {
 					+ Math.min(drinker.getMaxHp() - drinker.getHp(), 5));
 			drinker.setPa(drinker.getPa() - 1);
 		} else if (retour == Api.DEFENSE_GAINED) {
-			drinker.setDefence(drinker.getDefense()
+			drinker.setDefense(drinker.getDefense()
 					+ Math.min(drinker.getMaxDefense() - drinker.getDefense(),
 							1)); // drinker.defence++
 			drinker.setPa(drinker.getPa() - 1);
