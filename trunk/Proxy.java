@@ -13,6 +13,10 @@ public class Proxy {
 	private Map<Integer, SugarDrop> sugarDrops;
 
 	private Cell[][] map;
+	
+	private int LIMIT_CHERRY = 0;
+	private int LIMIT_KIWI = 0;
+	private int LIMIT_NUT = 0;
 
 	public Fruit getFruit(Integer id) {
 		return fruits.get(id);
@@ -100,13 +104,30 @@ public class Proxy {
 		
 		for (int i = 0; i< buildings.length; ++i) {
 			building = new Building(buildings[i][Api.OBJECT_ID]);
+			this.buildings.put(buildings[i][Api.OBJECT_ID], building);
 			getCell(buildings[i][Api.OBJECT_X], buildings[i][Api.OBJECT_Y]).setBuilding(building);
 		}
+		
+		LIMIT_CHERRY = limitCherry;
+		LIMIT_KIWI = limitKiwi;
+		LIMIT_NUT = limitNut;
 	}
 
 	public void updateMap(Integer[][] newObjects, Integer[] deletedObjects,
 			Integer[][] movedFruits, Integer[][] modifiedFruits,
 			Integer[][] modifiedSugarDrops) {
+		
+		for (int i=0; i<newObjects.length; ++i){
+			switch (newObjects[i][Api.OBJECT_TYPE]) {
+			case Api.FRUIT_CHERRY:
+				
+				break;
+
+			default:
+				break;
+			}
+		}
+		
 	}
 
 	public void updateMap(Integer[][] newObjects, Integer[][] modifiedSugarDrops) {
