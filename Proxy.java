@@ -241,6 +241,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			creator.setPa(creator.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -259,6 +260,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			fruit.setPa(fruit.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -268,6 +270,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			picker.setPa(picker.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -278,6 +281,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			dropper.setPa(dropper.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -287,6 +291,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			picker.setPa(picker.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -297,6 +302,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			dropper.setPa(dropper.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -306,6 +312,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			oppener.setPa(oppener.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -315,6 +322,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			stocker.setPa(stocker.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -324,6 +332,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			seller.setPa(seller.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -333,6 +342,7 @@ public class Proxy {
 		if(retour == Api.OK) {
 			//TODO: action
 			buyer.setPa(buyer.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
