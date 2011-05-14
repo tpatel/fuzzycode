@@ -1,3 +1,5 @@
+package fuzzycode;
+
 import java.lang.Math;
 
 public class FuzzyDouble{

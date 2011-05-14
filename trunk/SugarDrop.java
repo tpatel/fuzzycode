@@ -1,3 +1,5 @@
+package fuzzycode;
+
 public class SugarDrop {
 	private Integer nbrElement;
 	private Integer id;

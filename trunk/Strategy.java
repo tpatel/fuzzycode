@@ -1,7 +1,10 @@
+package fuzzycode;
+
 public class Strategy {
-    public void run();
+    public void run() {
+	}
     /**
      * pertinence de la strategies
      */
-    public Double adequacy();
+    public Double adequacy;
 }

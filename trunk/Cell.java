@@ -1,3 +1,5 @@
+package fuzzycode;
+
 import java.util.*;
 
 public class Cell {
