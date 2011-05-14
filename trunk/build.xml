@@ -3,7 +3,7 @@
 	<target name="makeJar" description="Make jar in AI directory">
 		<jar destfile="./aiLyon.jar"
 		 	basedir="bin"
-			includes="**/*.class"
+			includes="*.class"
 			update="true"
 			manifest="manifest.mf" />
 	</target>
