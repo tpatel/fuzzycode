@@ -98,9 +98,9 @@ public class Proxy {
 			getCell(fruits[i][Api.OBJECT_X], fruits[i][Api.OBJECT_Y]).setFruit(fruit);
 		}
 		
-		for (int i = 0; i< building.length; ++i) {
-			Building 
-			getCell(fruits[i][Api.OBJECT_X], fruits[i][Api.OBJECT_Y]).setFruit(fruit);
+		for (int i = 0; i< buildings.length; ++i) {
+			building = new Building(buildings[i][Api.OBJECT_ID]);
+			getCell(buildings[i][Api.OBJECT_X], buildings[i][Api.OBJECT_Y]).setBuilding(building);
 		}
 	}
 
