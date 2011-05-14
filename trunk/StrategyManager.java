@@ -1,6 +1,6 @@
 package fuzzycode;
 
-import game.FruitSaladAi;
+import game.*;
 
 import java.util.List;
 
@@ -33,8 +33,10 @@ public class StrategyManager implements FruitSaladAi {
 
 	@Override
 	public void initGame(int[][] arg0, int[][] arg1, int[][] arg2, int arg3,
-			int arg4, int arg5) {
+			int arg4, int arg5, int arg6, int arg7) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 }
