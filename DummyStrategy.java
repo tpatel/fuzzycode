@@ -5,7 +5,7 @@ public class DummyStrategy extends Strategy {
 	@Override
 	public Double computeAdequacy() {
 		// TODO Auto-generated method stub
-		return 1.0;
+		return 0.5;
 	}
 
 
