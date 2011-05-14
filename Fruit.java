@@ -4,14 +4,44 @@ public class Fruit {
 	protected Integer x;
 	protected Integer y;
 	protected Integer hp;
+	protected Integer maxHp; //Points de vie maximum
 	protected Integer defence;
+	protected Integer maxDefence; //Points de défence max
 	protected Integer speed;
 	protected Integer attack;
 	protected Integer id;
+	protected Integer pa; //Points d'actions
+
+
+	public Integer getMaxDefence() {
+		return maxDefence;
+	}
+
+	public void setMaxDefence(Integer maxDefence) {
+		this.maxDefence = maxDefence;
+	}
+
+	public Integer getMaxHp() {
+		return maxHp;
+	}
+
+	public void setMaxHp(Integer maxHp) {
+		this.maxHp = maxHp;
+	}
+
+	public Integer getPa() {
+		return pa;
+	}
+
+	public void setPa(Integer pa) {
+		this.pa = pa;
+	}
+
 
 	public Fruit(Integer type) {
 		// TODO Auto-generated constructor stub
 	}
+
 
 	public Integer getX() {
 		return x;
