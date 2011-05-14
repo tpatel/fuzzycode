@@ -210,26 +210,27 @@ public class Proxy {
 
 	public Integer attack(Fruit shooter, Fruit target) {
 		Integer retour = Api.attack(shooter.getId(), target.getId());
-		if (retour == Api.OK) {
-			target
-					.setHp(Math.max(0, shooter.getAttack()
-							- target.getDefence()));
+		if (retour == Api.HIT) {
+			target.setHp(Math.max(0, shooter.getAttack() - target.getDefence()));
 			shooter.setPa(shooter.getPa() - 1);
+		} else if(retour == Api.SPLATCHED) {
+			//TODO: supprimer l'ennemi !!
+			shooter.setPa(shooter.getPa() - 1);
+			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
 
 	public Integer drinkJuice(Fruit drinker) {
 		Integer retour = Api.drinkJuice(drinker.getId());
-		if (retour == Api.OK) {
-			if (drinker.getMaxHp() - drinker.getHp() > 0) {
-				drinker.setHp(drinker.getHp()
-						+ Math.min(drinker.getMaxHp() - drinker.getHp(), 5));
-			} else if (drinker.getMaxDefence() - drinker.getDefence() > 0) {
-				drinker.setDefence(drinker.getDefence()
-						+ Math.min(drinker.getMaxDefence()
-								- drinker.getDefence(), 1)); // drinker.defence++
-			}
+		if (retour == Api.LIFE_GAINED) {
+			drinker.setHp(drinker.getHp()
+					+ Math.min(drinker.getMaxHp() - drinker.getHp(), 5));
+			drinker.setPa(drinker.getPa()-1);
+		} else if (retour == Api.DEFENSE_GAINED) {
+			drinker.setDefence(drinker.getDefence()
+					+ Math.min(drinker.getMaxDefence()
+							- drinker.getDefence(), 1)); // drinker.defence++
 			drinker.setPa(drinker.getPa()-1);
 		}
 		return retour;
@@ -238,7 +239,7 @@ public class Proxy {
 	public Integer fructify(Fruit creator, Integer desiredFruitType, Integer x,
 			Integer y) {
 		Integer retour = Api.fructify(creator.getFruitType(), x, y);
-		if(retour == Api.OK) {
+		if(retour > 0) {
 			//TODO: action
 			creator.setPa(creator.getPa()-1);
 			throw new RuntimeException("Pas encore géré !");
@@ -257,7 +258,15 @@ public class Proxy {
 
 	public Integer useEquipment(Fruit fruit, Equipment equipment, Fruit target) {
 		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(), target.getId());
-		if(retour == Api.OK) {
+		if(retour == Api.HIT) {
+			//TODO: action
+			fruit.setPa(fruit.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
+		} else if(retour == Api.SPLATCHED) {
+			//TODO: action
+			fruit.setPa(fruit.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
+		} else if(retour == Api.RELOADED) {
 			//TODO: action
 			fruit.setPa(fruit.getPa()-1);
 			throw new RuntimeException("Pas encore géré !");
@@ -289,7 +298,7 @@ public class Proxy {
 	public Integer pickUpSugar(Fruit picker, SugarDrop sugarDrop) {
 		Integer retour = Api.pickUpSugar(picker.getId(), sugarDrop.getId());
 		if(retour == Api.OK) {
-			//TODO: action
+			//sugarDrop.setNbrElement(sugarDrop.getNbrElement()-1); TODO: demander combien on prend
 			picker.setPa(picker.getPa()-1);
 			throw new RuntimeException("Pas encore géré !");
 		}
@@ -299,7 +308,11 @@ public class Proxy {
 	public Integer dropSugar(Fruit dropper, Integer quantity, Integer x,
 			Integer y) {
 		Integer retour = Api.dropSugar(dropper.getId(), quantity, x, y);
-		if(retour == Api.OK) {
+		if(retour == Api.SOME_SUGAR_TAKEN) {
+			//TODO: action
+			dropper.setPa(dropper.getPa()-1);
+			throw new RuntimeException("Pas encore géré !");
+		} else if (retour == Api.ALL_SUGAR_TAKEN) {
 			//TODO: action
 			dropper.setPa(dropper.getPa()-1);
 			throw new RuntimeException("Pas encore géré !");

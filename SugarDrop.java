@@ -4,6 +4,10 @@ public class SugarDrop {
 	private Integer nbrElement;
 	private Integer id;
 	
+	public void setNbrElement(Integer nbrElement) {
+		this.nbrElement = nbrElement;
+	}
+
 	public Integer getNbrElement() {
 		return this.nbrElement;
 	}
