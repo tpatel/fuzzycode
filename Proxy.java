@@ -413,17 +413,6 @@ public class Proxy {
 		return retour;
 	}
 
-	public Integer useEquipment(Fruit fruit, Equipment equipment,
-			Equipment target) {
-		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
-				target.getId());
-		if (retour == Api.OK) {
-			// TODO: action
-			fruit.setPa(fruit.getPa() - 1);
-		}
-		return retour;
-	}
-
 	public Integer pickUpEquipment(Fruit picker, Equipment equipment) {
 		Integer retour = Api.pickUpEquipment(picker.getId(), equipment.getId());
 		if (retour == Api.OK) {
