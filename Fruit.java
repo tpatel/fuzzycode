@@ -4,12 +4,6 @@ import java.util.List;
 import game.Api;
 
 public class Fruit {
-	public static class Type {
-		public static Integer Kiwi = Api.FRUIT_KIWI;
-		public static Integer Cerise = Api.FRUIT_CHERRY;
-		public static Integer Noix = Api.FRUIT_NUT;
-	}
-	
 	protected Integer x;
 	protected Integer y;
 	protected Integer hp;
@@ -138,8 +132,8 @@ public class Fruit {
 	public void setType(Integer type) {
 		this.type = type;
 		
-		this.maxDefence = this.type == Fruit.Type.Cerise ? 0 : (this.type == Fruit.Type.Kiwi ? 1 : 2);
-		this.maxHp = this.type == Fruit.Type.Cerise ? 15 : (this.type == Fruit.Type.Kiwi ? 20 : 25);
+		this.maxDefence = this.type == Api.FRUIT_CHERRY ? 0 : (this.type == Api.FRUIT_KIWI ? 1 : 2);
+		this.maxHp = this.type == Api.FRUIT_CHERRY ? 15 : (this.type == Api.FRUIT_KIWI ? 20 : 25);
 	}
 
 	public Integer getAttack() {
