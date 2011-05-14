@@ -120,7 +120,8 @@ public class Proxy {
 		for (int i=0; i<newObjects.length; ++i){
 			switch (newObjects[i][Api.OBJECT_TYPE]) {
 			case Api.FRUIT_CHERRY:
-				
+					Enemy enemy = new Enemy(newObjects[i][Api.FRUIT_CHERRY]);
+					getCell(newObjects[i][Api.OBJECT_X], newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
 				break;
 
 			default:
