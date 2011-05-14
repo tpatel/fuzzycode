@@ -51,24 +51,6 @@ public class StrategyManager implements FruitSaladAi {
 		//lance la stratégie choisie;
 		runningStrategy.run();
 		
-		
-		/*
-		Strategy bestStrategy = null;
-		Double bestAdequacy = 0.0;
-		for( Strategy s : pendingStrategies ){
-			Double adequacy = s.adequacy();
-			if((bestStrategy == null)||( adequacy > bestAdequacy )){
-				bestStrategy = s;
-				bestAdequacy = adequacy;
-			}
-		}
-		Collections.sort(pendingStrategies, new Comparator<Strategy>(){
-			@Override
-			public int compare(Strategy arg0, Strategy arg1) {
-				int result = arg0.adequacy().compareTo(arg1.adequacy());
-			}} 
-		);
-		*/
 	}
 
 	@Override
