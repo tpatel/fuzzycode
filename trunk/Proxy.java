@@ -169,15 +169,34 @@ public class Proxy {
 	}
 
 	public Integer move(Fruit fruit, Integer x, Integer y) {
-		return 0;
+		Integer retour = Api.move(fruit.getId(), x, y);
+		if(retour == Api.OK) {
+			fruit.setX(x);
+			fruit.setY(y);
+			fruit.setPa(fruit.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer attack(Fruit shooter, Fruit target) {
-		return 0;
+		Integer retour = Api.attack(shooter.getId(), target.getId());
+		if(retour == Api.OK) {
+			target.setHp(Math.max(0, shooter.getAttack()-target.getDefence()));
+			shooter.setPa(shooter.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer drinkJuice(Fruit drinker) {
-		return 0;
+		Integer retour = Api.drinkJuice(drinker.getId());
+		if(retour == Api.OK) {
+			if(drinker.getMaxHp() - drinker.getHp() > 0) {
+				drinker.setHp(drinker.getHp() + Math.min(drinker.getMaxHp() - drinker.getHp(), 5));
+			} else if(drinker.getMaxDefence() - drinker.getDefence() > 0) {
+				drinker.setDefence(drinker.getDefence() + Math.min(drinker.getMaxDefence() - drinker.getDefence(), 1)); //drinker.defence++
+			}
+		}
+		return retour;
 	}
 
 	public Integer fructify(Fruit creator, Integer desiredFruitType, Integer x,
