@@ -12,7 +12,7 @@ public class Cell {
 	private Boolean wall;
 	
 	public Boolean isOccupied() {
-		return this.isWall() || this.hasEquipement() || this.hasBuilding() || this.hasChest() || this.hasFruit();
+		return this.isWall() || this.hasEquipment() || this.hasBuilding() || this.hasChest() || this.hasFruit();
 	}
 	
 	public Boolean isWall() {
@@ -44,7 +44,7 @@ public class Cell {
 	}
 	
 	public List<Equipment> getEquipments() {
-		return this.equipment;
+		return this.equipments;
 	}
 	
 	public Building getBuilding() {
