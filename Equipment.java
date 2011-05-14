@@ -1,5 +1,7 @@
 package fuzzycode;
 
+import game.Api;
+
 public class Equipment {
 	protected Integer range;
 	protected Integer ammo;
@@ -7,6 +9,15 @@ public class Equipment {
 	protected Double weightAmmo;
 	protected Integer id;
 	protected Integer type;
+	protected Integer ammoMax;
+	
+	public Integer getAmmoMax() {
+		return ammoMax;
+	}
+
+	public void setAmmoMax(Integer ammoMax) {
+		this.ammoMax = ammoMax;
+	}
 
 	public Integer getType() {
 		return type;
@@ -14,6 +25,69 @@ public class Equipment {
 
 	public void setType(Integer type) {
 		this.type = type;
+		
+		if(this.type == Api.EQUIPMENT_CUTTER) {
+			this.range = 2;
+			this.ammoMax = Integer.MAX_VALUE;
+			this.weightBase = 15.0;
+			this.weightAmmo = 0.0;
+		}
+		
+		if(this.type == Api.EQUIPMENT_JUICE_NEEDLE) {
+			this.range = 1;
+			this.ammoMax = 10;
+			this.weightBase = 2.0;
+			this.weightAmmo = 1.0;
+		}
+		
+		if(this.type == Api.EQUIPMENT_LEMONER) {
+			this.range = 6;
+			this.ammoMax = 25;
+			this.weightBase = 10.0;
+			this.weightAmmo = 0.4;
+		}
+		
+		if(this.type == Api.EQUIPMENT_LIGHTER) {
+			this.range = 5;
+			this.ammoMax = 100;
+			this.weightBase = 11.0;
+			this.weightAmmo = 0.01;
+		}
+		
+		if(this.type == Api.EQUIPMENT_PEELER) {
+			this.range = 2;
+			this.ammoMax = Integer.MAX_VALUE;
+			this.weightBase = 5.0;
+			this.weightAmmo = 0.0;
+		}
+		
+		if(this.type == Api.EQUIPMENT_RELOADER) {
+			this.range = 1;
+			this.ammoMax = 1;
+			this.weightBase = 2.0;
+			this.weightAmmo = 10.0;
+		}
+		
+		if(this.type == Api.EQUIPMENT_SALT_SNIPER) {
+			this.range = 10;
+			this.ammoMax = 10;
+			this.weightBase = 20.0;
+			this.weightAmmo = 1.0;
+		}
+		
+		if(this.type == Api.EQUIPMENT_TEA_SPOON) {
+			this.range = 1;
+			this.ammoMax = Integer.MAX_VALUE;
+			this.weightBase = 5.0;
+			this.weightAmmo = 0.0;
+		}
+		
+		if(this.type == Api.EQUIPMENT_TOOTHPICK) {
+			this.range = 1;
+			this.ammoMax = Integer.MAX_VALUE;
+			this.weightBase = 10.0;
+			this.weightAmmo = 0.0;
+		}
 	}
 
 	public Integer getId() {
@@ -32,10 +106,6 @@ public class Equipment {
 		return this.range;
 	}
 	
-	public void setRange(Integer range) {
-		this.range = range;
-	}
-	
 	public Integer getAmmo() {
 		return this.ammo;
 	}
@@ -46,13 +116,5 @@ public class Equipment {
 	
 	public Double getWeight() {
 		return this.weightBase + this.weightAmmo * this.ammo;
-	}
-	
-	public void setWeightBase(Double weight) {
-		this.weightBase = weight;
-	}
-	
-	public void setWeightAmmo(Double weight) {
-		this.weightAmmo = weight;
 	}
 }
