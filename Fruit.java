@@ -19,6 +19,33 @@ public class Fruit {
 	protected Integer pa; //Points d'actions
 	protected Integer fruitType;
 	protected Integer curVitamins;
+	protected Integer sucre;
+	protected Integer maxSucre;
+	protected Boolean isAmi;
+
+	public Integer getMaxSucre() {
+		return maxSucre;
+	}
+
+	public void setMaxSucre(Integer maxSucre) {
+		this.maxSucre = maxSucre;
+	}
+
+	public Integer getSucre() {
+		return sucre;
+	}
+
+	public void setSucre(Integer sucre) {
+		this.sucre = sucre;
+	}
+
+	public Boolean getIsAmi() {
+		return isAmi;
+	}
+
+	public void setIsAmi(Boolean isAmi) {
+		this.isAmi = isAmi;
+	}
 
 	public Fruit(Integer integer) {
 		this.setType(type);
