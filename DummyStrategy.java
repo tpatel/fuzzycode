@@ -3,7 +3,7 @@ package fuzzycode;
 public class DummyStrategy extends Strategy {
 
 	@Override
-	public Double adequacy() {
+	public Double computeAdequacy() {
 		// TODO Auto-generated method stub
 		return 1.0;
 	}
@@ -26,5 +26,4 @@ public class DummyStrategy extends Strategy {
 		// TODO Auto-generated method stub
 
 	}
-
 }

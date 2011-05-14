@@ -21,8 +21,30 @@ public abstract class Strategy {
     /**
      * Pertinence de la strategie.
      */
-    public abstract Double adequacy();
+    public abstract Double computeAdequacy();
     
+    /**
+     * Les methodes qui suivent servent juste a eviter que la pertincence soit calculée plus d'une fois par tour.
+     */
+    public void resetAdequacyCache(){
+    	oncePerFrame = true;
+    }
+    
+    /**
+     * renvoie la pertinence, c'est cette méthode qu'il faut appeler et non computeAdequacy.
+     */
+    public Double adequacy(){
+    	if(oncePerFrame) {
+    		cachedAdequacy = computeAdequacy();
+    		oncePerFrame = false;
+    	}
+    	return cachedAdequacy;
+    }
+    
+    private Boolean oncePerFrame;
+    private Double cachedAdequacy;
+    
+    //static final int INFINITY = Integer.MAX_VALUE;
     static final int[][] neighbourPattern = {{-1,-1},{0,-1},{1,-1},{-1,0},{1,0},{-1,1},{0,1},{1,1}};
     protected Proxy proxy;
     protected class Node implements Comparable {
@@ -69,5 +91,15 @@ public abstract class Strategy {
     		return nodes;
     	}
     }
+    
+    protected void updateDangerLevel(){
+    	Proxy ProxyAPI = Proxy.getProxy();
+    	List<Fruit> enemies = ProxyAPI.getEnemyFruits();
+    	for( Fruit enemy : enemies ){
+    		
+    	}
+      
+    }
+    
     
 }
