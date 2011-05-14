@@ -13,7 +13,7 @@ public class Proxy {
 	private Map<Integer, SugarDrop> sugarDrops;
 
 	private Cell[][] map;
-	
+
 	private int LIMIT_CHERRY = 0;
 	private int LIMIT_KIWI = 0;
 	private int LIMIT_NUT = 0;
@@ -92,22 +92,27 @@ public class Proxy {
 					getCell(i, j).setBuilding(building);
 					break;
 
+				default:
+					break;
 				}
 			}
 		}
 
-		for (int i = 0; i< fruits.length; ++i) {
-			Ally fruit = new Ally(fruits[i][Api.OBJECT_TYPE]);
+		for (int i = 0; i < fruits.length; ++i) {
+			Fruit fruit = new Fruit(fruits[i][Api.OBJECT_TYPE]);
+			// TODO Mettre à jour le booléen ami
 			this.fruits.put(fruits[i][Api.OBJECT_ID], fruit);
-			getCell(fruits[i][Api.OBJECT_X], fruits[i][Api.OBJECT_Y]).setFruit(fruit);
+			getCell(fruits[i][Api.OBJECT_X], fruits[i][Api.OBJECT_Y]).setFruit(
+					fruit);
 		}
-		
-		for (int i = 0; i< buildings.length; ++i) {
+
+		for (int i = 0; i < buildings.length; ++i) {
 			building = new Building(buildings[i][Api.OBJECT_ID]);
 			this.buildings.put(buildings[i][Api.OBJECT_ID], building);
-			getCell(buildings[i][Api.OBJECT_X], buildings[i][Api.OBJECT_Y]).setBuilding(building);
+			getCell(buildings[i][Api.OBJECT_X], buildings[i][Api.OBJECT_Y])
+					.setBuilding(building);
 		}
-		
+
 		LIMIT_CHERRY = limitCherry;
 		LIMIT_KIWI = limitKiwi;
 		LIMIT_NUT = limitNut;
@@ -116,19 +121,48 @@ public class Proxy {
 	public void updateMap(Integer[][] newObjects, Integer[] deletedObjects,
 			Integer[][] movedFruits, Integer[][] modifiedFruits,
 			Integer[][] modifiedSugarDrops) {
-		
-		for (int i=0; i<newObjects.length; ++i){
+
+		Fruit enemy = null;
+		Equipment equip = null;
+		for (int i = 0; i < newObjects.length; ++i) {
 			switch (newObjects[i][Api.OBJECT_TYPE]) {
 			case Api.FRUIT_CHERRY:
-					Enemy enemy = new Enemy(newObjects[i][Api.FRUIT_CHERRY]);
-					getCell(newObjects[i][Api.OBJECT_X], newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
+				enemy = new Fruit(Api.FRUIT_CHERRY);
+				fruits.put(newObjects[i][Api.OBJECT_ID], enemy);
+				// TODO Mettre à jour le booléen
+				getCell(newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
+				break;
+
+			case Api.FRUIT_KIWI:
+				enemy = new Fruit(Api.FRUIT_KIWI);
+				fruits.put(newObjects[i][Api.OBJECT_ID], enemy);
+				// TODO Mettre à jour le booléen
+				getCell(newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
+				break;
+
+			case Api.FRUIT_NUT:
+				enemy = new Fruit(Api.FRUIT_NUT);
+				fruits.put(newObjects[i][Api.OBJECT_ID], enemy);
+				// TODO Mettre à jour le booléen
+				getCell(newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
+				break;
+
+			case Api.EQUIPMENT_TEA_SPOON:
+				equip = new Equipment(Api.EQUIPMENT_TEA_SPOON);
+				equipments.put(newObjects[i][Api.OBJECT_ID], equip);
+				// TODO Mettre à jour le booléen
+				getCell(newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
 				break;
 
 			default:
 				break;
 			}
 		}
-		
+
 	}
 
 	public void updateMap(Integer[][] newObjects, Integer[][] modifiedSugarDrops) {

@@ -1,6 +1,6 @@
 package fuzzycode;
 
-public abstract class Fruit {
+public class Fruit {
 	protected Integer x;
 	protected Integer y;
 	protected Integer hp;
@@ -8,6 +8,10 @@ public abstract class Fruit {
 	protected Integer speed;
 	protected Integer attack;
 	protected Integer id;
+
+	public Fruit(Integer type) {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Integer getX() {
 		return x;
@@ -41,7 +45,9 @@ public abstract class Fruit {
 		this.defence = defence;
 	}
 
-	public abstract Integer getSpeed();
+	public Integer getSpeed() {
+		return this.speed;
+	}
 
 	public void setSpeed(Integer speed) {
 		this.speed = speed;
@@ -64,6 +70,8 @@ public abstract class Fruit {
 	}
 
 	// Range de base ou range max en comptant les objets
-	abstract public Integer getRange();
+	public Integer getRange(){
+		return 0;
+	}
 
 }
