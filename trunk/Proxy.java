@@ -103,27 +103,11 @@ public class Proxy {
 					break;
 
 				case Api.BUILDING_VITAMIN_SOURCE:
-					building = new Building(Api.BUILDING_VITAMIN_SOURCE);
-					getCell(i, j).setBuilding(building);
-					break;
-
 				case Api.BUILDING_FRUCTIFICATION_TANK:
-					building = new Building(Api.BUILDING_FRUCTIFICATION_TANK);
-					getCell(i, j).setBuilding(building);
-					break;
-
 				case Api.BUILDING_JUICE_BARREL:
-					building = new Building(Api.BUILDING_JUICE_BARREL);
-					getCell(i, j).setBuilding(building);
-					break;
-
 				case Api.BUILDING_SUGAR_BOWL:
-					building = new Building(Api.BUILDING_SUGAR_BOWL);
-					getCell(i, j).setBuilding(building);
-					break;
-
 				case Api.BUILDING_SUGAR_TREE:
-					building = new Building(Api.BUILDING_SUGAR_TREE);
+					building = new Building(architecture[i][j]);
 					getCell(i, j).setBuilding(building);
 					break;
 
@@ -148,7 +132,6 @@ public class Proxy {
 					.setBuilding(building);
 		}
 
-		// TODO Set limites et goal
 		this.limitCherry = limitCherry;
 		this.limitKiwi = limitKiwi;
 		this.limitNut = limitNut;
@@ -189,8 +172,8 @@ public class Proxy {
 			case Api.EQUIPMENT_TEA_SPOON:
 			case Api.EQUIPMENT_TOOTHPICK:
 				equip = new Equipment(newObjects[i][Api.OBJECT_TYPE]);
+				equip.setAmmo(newObjects[i][Api.OBJECT_INFO]);
 				equipments.put(newObjects[i][Api.OBJECT_ID], equip);
-				// TODO Mettre à jour les munitions
 				getCell(newObjects[i][Api.OBJECT_X],
 						newObjects[i][Api.OBJECT_Y]).addEquipment(equip);
 				break;
@@ -204,6 +187,7 @@ public class Proxy {
 
 			case Api.SUGAR_DROP:
 				sDrop = new SugarDrop();
+				sDrop.setNbrElement(newObjects[i][Api.OBJECT_INFO]);
 				sugarDrops.put(newObjects[i][Api.OBJECT_ID], sDrop);
 				getCell(newObjects[i][Api.OBJECT_X],
 						newObjects[i][Api.OBJECT_Y]).setSugarDrop(sDrop);
@@ -259,7 +243,7 @@ public class Proxy {
 				fruitModifie.setHp(modifiedFruits[i][Api.OBJECT_LIFE]);
 			}
 		}
-		
+
 		// ========= sugarDrops modifiés
 		for (int i = 0; i < modifiedSugarDrops.length; i++) {
 			// Les objets qui bougent sont les équipements et les fruits
@@ -267,7 +251,7 @@ public class Proxy {
 
 			SugarDrop drop = sugarDrops.get(identifiant);
 			if (drop != null) {
-				// TODO mettre à jour le niveau de sucre
+				drop.setNbrElement(modifiedSugarDrops[i][Api.OBJECT_SUGAR]);
 			}
 		}
 
@@ -279,7 +263,6 @@ public class Proxy {
 		Chest chest = null;
 		SugarDrop sDrop = null;
 
-		
 		// ==================== Nouveaux objets
 		for (int i = 0; i < newObjects.length; ++i) {
 			switch (newObjects[i][Api.OBJECT_TYPE]) {
@@ -304,8 +287,8 @@ public class Proxy {
 			case Api.EQUIPMENT_TEA_SPOON:
 			case Api.EQUIPMENT_TOOTHPICK:
 				equip = new Equipment(newObjects[i][Api.OBJECT_TYPE]);
+				equip.setAmmo(newObjects[i][Api.OBJECT_INFO]);
 				equipments.put(newObjects[i][Api.OBJECT_ID], equip);
-				// TODO Mettre à jour les munitions
 				getCell(newObjects[i][Api.OBJECT_X],
 						newObjects[i][Api.OBJECT_Y]).addEquipment(equip);
 				break;
@@ -328,7 +311,7 @@ public class Proxy {
 				break;
 			}
 		}
-		
+
 		// ========= sugarDrops modifiés
 		for (int i = 0; i < modifiedSugarDrops.length; i++) {
 			// Les objets qui bougent sont les équipements et les fruits
@@ -336,7 +319,7 @@ public class Proxy {
 
 			SugarDrop drop = sugarDrops.get(identifiant);
 			if (drop != null) {
-				// TODO mettre à jour le niveau de sucre
+				drop.setNbrElement(modifiedSugarDrops[i][Api.OBJECT_SUGAR]);
 			}
 		}
 	}
@@ -354,10 +337,12 @@ public class Proxy {
 	public Integer attack(Fruit shooter, Fruit target) {
 		Integer retour = Api.attack(shooter.getId(), target.getId());
 		if (retour == Api.HIT) {
-			target.setHp(Math.max(0, shooter.getAttack() - target.getDefence()));
+			target
+					.setHp(Math.max(0, shooter.getAttack()
+							- target.getDefence()));
 			shooter.setPa(shooter.getPa() - 1);
-		} else if(retour == Api.SPLATCHED) {
-			//TODO: supprimer l'ennemi !!
+		} else if (retour == Api.SPLATCHED) {
+			// TODO: supprimer l'ennemi !!
 			shooter.setPa(shooter.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
@@ -372,9 +357,9 @@ public class Proxy {
 			drinker.setPa(drinker.getPa() - 1);
 		} else if (retour == Api.DEFENSE_GAINED) {
 			drinker.setDefence(drinker.getDefence()
-					+ Math.min(drinker.getMaxDefence()
-							- drinker.getDefence(), 1)); // drinker.defence++
-			drinker.setPa(drinker.getPa()-1);
+					+ Math.min(drinker.getMaxDefence() - drinker.getDefence(),
+							1)); // drinker.defence++
+			drinker.setPa(drinker.getPa() - 1);
 		}
 		return retour;
 	}
@@ -382,9 +367,9 @@ public class Proxy {
 	public Integer fructify(Fruit creator, Integer desiredFruitType, Integer x,
 			Integer y) {
 		Integer retour = Api.fructify(creator.getFruitType(), x, y);
-		if(retour > 0) {
-			//TODO: action
-			creator.setPa(creator.getPa()-1);
+		if (retour > 0) {
+			// TODO: action
+			creator.setPa(creator.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
@@ -400,24 +385,36 @@ public class Proxy {
 	}
 
 	public Integer useEquipment(Fruit fruit, Equipment equipment, Fruit target) {
-		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(), target.getId());
-		if(retour == Api.HIT) {
-			//TODO: action
-			fruit.setPa(fruit.getPa()-1);
+		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
+				target.getId());
+		if (retour == Api.HIT) {
+			// TODO: action
+			fruit.setPa(fruit.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
-		} else if(retour == Api.SPLATCHED) {
-			//TODO: action
-			fruit.setPa(fruit.getPa()-1);
+		} else if (retour == Api.SPLATCHED) {
+			// TODO: action
+			fruit.setPa(fruit.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
-		} else if(retour == Api.RELOADED) {
-			//TODO: action
-			fruit.setPa(fruit.getPa()-1);
+		} else if (retour == Api.RELOADED) {
+			// TODO: action
+			fruit.setPa(fruit.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
 	
 	public Integer useEquipment(Fruit fruit, Equipment equipment, Equipment target) {
+		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
+				target.getId());
+		if (retour == Api.OK) {
+			// TODO: action
+			fruit.setPa(fruit.getPa() - 1);
+		}
+		return retour;
+	}
+
+	public Integer useEquipment(Fruit fruit, Equipment equipment,
+			Equipment target) {
 		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
 				target.getId());
 		if (retour == Api.OK) {
@@ -451,9 +448,10 @@ public class Proxy {
 
 	public Integer pickUpSugar(Fruit picker, SugarDrop sugarDrop) {
 		Integer retour = Api.pickUpSugar(picker.getId(), sugarDrop.getId());
-		if(retour == Api.OK) {
-			//sugarDrop.setNbrElement(sugarDrop.getNbrElement()-1); TODO: demander combien on prend
-			picker.setPa(picker.getPa()-1);
+		if (retour == Api.OK) {
+			// sugarDrop.setNbrElement(sugarDrop.getNbrElement()-1); TODO:
+			// demander combien on prend
+			picker.setPa(picker.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
@@ -462,13 +460,13 @@ public class Proxy {
 	public Integer dropSugar(Fruit dropper, Integer quantity, Integer x,
 			Integer y) {
 		Integer retour = Api.dropSugar(dropper.getId(), quantity, x, y);
-		if(retour == Api.SOME_SUGAR_TAKEN) {
-			//TODO: action
-			dropper.setPa(dropper.getPa()-1);
+		if (retour == Api.SOME_SUGAR_TAKEN) {
+			// TODO: action
+			dropper.setPa(dropper.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		} else if (retour == Api.ALL_SUGAR_TAKEN) {
-			//TODO: action
-			dropper.setPa(dropper.getPa()-1);
+			// TODO: action
+			dropper.setPa(dropper.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
