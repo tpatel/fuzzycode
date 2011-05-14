@@ -20,7 +20,19 @@ public class StrategyManager implements FruitSaladAi {
 
 	@Override
 	public void mapUpdate(int[][] arg0, int[][] arg1) {
-		Proxy.getProxy().updateMap(arg0, arg1);
+		Integer[][] leArg0 = new Integer[arg0.length][arg0[0].length];
+		for (int i = 0; i < arg0.length; i++) {
+			for (int j = 0; j < arg0[0].length; j++) {
+				leArg0[i][j] = arg0[i][j];
+			}
+		}
+		Integer[][] leArg1 = new Integer[arg1.length][arg1[0].length];
+		for (int i = 0; i < arg1.length; i++) {
+			for (int j = 0; j < arg1[0].length; j++) {
+				leArg1[i][j] = arg0[i][j];
+			}
+		}
+		Proxy.getProxy().updateMap(leArg0, leArg1);
 	}
 
 	@Override
@@ -61,9 +73,27 @@ public class StrategyManager implements FruitSaladAi {
 
 	@Override
 	public void stop(){} // JAVAjavajavajavaJAVAjavaJAVAjavaaaaa
-
+	
 	@Override
-	public void initGame(int[][] architecture, int[][] fruits, int[][] arg2, int buildings,	int limitCherry, int limitKiwi, int limitNut, int vitaminGoal, int maxNbTurns) {
+	public void initGame(int[][] arg0, int[][] arg1, int[][] arg2,	int limitCherry, int limitKiwi, int limitNut, int vitaminGoal, int maxNbTurns) {
+		Integer[][] architecture = new Integer[arg0.length][arg0[0].length];
+		for (int i = 0; i < architecture.length; i++) {
+			for (int j = 0; j < architecture[0].length; j++) {
+				architecture[i][j] = arg0[i][j];
+			}
+		}
+		Integer[][] fruits = new Integer[arg1.length][arg1[0].length];
+		for (int i = 0; i < arg1.length; i++) {
+			for (int j = 0; j < arg1[0].length; j++) {
+				fruits[i][j] = arg1[i][j];
+			}
+		}
+		Integer[][] buildings = new Integer[arg2.length][arg2[0].length];
+		for (int i = 0; i < arg2.length; i++) {
+			for (int j = 0; j < arg2[0].length; j++) {
+				buildings[i][j] = arg2[i][j];
+			}
+		}
 		// creation de la map
 		Proxy.getProxy().initMap(architecture, fruits, buildings, limitCherry, limitKiwi, limitNut, vitaminGoal, maxNbTurns);
 		// ajouter ici les différentes stratégies
