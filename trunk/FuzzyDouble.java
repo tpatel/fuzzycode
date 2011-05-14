@@ -64,7 +64,10 @@ public class FuzzyDouble{
 		System.out.println(fz2.getLowerBound(0.4));
 		if(fz2.getUpperBound(0.4) != 13.0) System.out.println("error, the lower bound should be 7.5");
 		System.out.println(fz2.getLowerBound(0.4));
-		
+		if(fz2.getConfidenceAt(2.0) != 0.0) System.out.println("error, the confidence at 2 should be 0");
+		if(fz2.getConfidenceAt(10.0) != 1.0) System.out.println("error, the confidence at 10 should be 1");
+		if(fz2.getConfidenceAt(7.0) != 0.4) System.out.println("error, the confidence at 2 should be 0");
+		if(fz2.getConfidenceAt(13.0) != 0.4) System.out.println("error, the confidence at 2 should be 0");
 	}
 
 	//public static void main(String[] args) { FuzzyDouble.unitTest(); }
