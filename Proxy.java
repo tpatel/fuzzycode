@@ -14,9 +14,20 @@ public class Proxy {
 
 	private Cell[][] map;
 
-	private int LIMIT_CHERRY = 0;
-	private int LIMIT_KIWI = 0;
-	private int LIMIT_NUT = 0;
+	private int limitCherry = 0;
+	private int limitKiwi = 0;
+	private int limitNut = 0;
+	private int vitaminGoal = 0;
+	private int maxNbTurns = 0;
+
+	private static Proxy instance = null;
+
+	public static Proxy getProxy() {
+		if (instance == null) {
+			instance = new Proxy();
+		}
+		return instance;
+	}
 
 	public Fruit getFruit(Integer id) {
 		return fruits.get(id);
@@ -53,9 +64,33 @@ public class Proxy {
 		return (map[0]).length;
 	}
 
+	public int getLimitCherry() {
+		return limitCherry;
+	}
+
+	public int getLimitKiwi() {
+		return limitKiwi;
+	}
+
+	public int getLimitNut() {
+		return limitNut;
+	}
+
+	public int getVitaminGoal() {
+		return vitaminGoal;
+	}
+
+	public int getMaxNbTurns() {
+		return maxNbTurns;
+	}
+
+	public void setMaxNbTurns(int maxNbTurns) {
+		this.maxNbTurns = maxNbTurns;
+	}
+
 	public void initMap(Integer[][] architecture, Integer[][] fruits,
 			Integer[][] buildings, Integer limitCherry, Integer limitKiwi,
-			Integer limitNut) {
+			Integer limitNut, Integer vitaminGoal, Integer maxNbTurns) {
 		Building building = null;
 		for (int i = 0; i < getMapWitdh(); ++i) {
 			for (int j = 0; j < getMapHeight(); ++j) {
@@ -113,9 +148,12 @@ public class Proxy {
 					.setBuilding(building);
 		}
 
-		LIMIT_CHERRY = limitCherry;
-		LIMIT_KIWI = limitKiwi;
-		LIMIT_NUT = limitNut;
+		// TODO Set limites et goal
+		this.limitCherry = limitCherry;
+		this.limitKiwi = limitKiwi;
+		this.limitNut = limitNut;
+		this.vitaminGoal = vitaminGoal;
+		this.maxNbTurns = maxNbTurns;
 	}
 
 	public void updateMap(Integer[][] newObjects, Integer[] deletedObjects,
@@ -170,12 +208,12 @@ public class Proxy {
 				getCell(newObjects[i][Api.OBJECT_X],
 						newObjects[i][Api.OBJECT_Y]).setSugarDrop(sDrop);
 				break;
-				
+
 			default:
 				break;
 			}
 		}
-		
+
 		// =========== objets supprimés
 		for (int i = 0; i < deletedObjects.length; ++i) {
 			int identifiant = deletedObjects[i];
@@ -185,17 +223,122 @@ public class Proxy {
 			chests.remove(identifiant);
 			sugarDrops.remove(identifiant);
 		}
-		
+
 		// ========= objets bougés
 		for (int i = 0; i < movedObjects.length; i++) {
 			// Les objets qui bougent sont les équipements et les fruits
 			int identifiant = movedObjects[i][Api.OBJECT_ID];
-			equipments.get(identifiant);
+			Equipment equipementBouge = equipments.get(identifiant);
+			if (equipementBouge != null) {
+				getCell(movedObjects[i][Api.OBJECT_X],
+						movedObjects[i][Api.OBJECT_Y]).removeEquipment(
+						equipementBouge);
+				getCell(movedObjects[i][Api.OBJECT_NEW_X],
+						movedObjects[i][Api.OBJECT_NEW_Y]).addEquipment(
+						equipementBouge);
+			} else {
+				Fruit fruitBouge = fruits.get(identifiant);
+				if (fruitBouge != null) {
+					getCell(movedObjects[i][Api.OBJECT_X],
+							movedObjects[i][Api.OBJECT_Y]).setFruit(null);
+					getCell(movedObjects[i][Api.OBJECT_NEW_X],
+							movedObjects[i][Api.OBJECT_NEW_Y]).setFruit(
+							fruitBouge);
+				}
+			}
+		}
+
+		// ========= fruits modifiés
+		for (int i = 0; i < modifiedFruits.length; i++) {
+			// Les objets qui bougent sont les équipements et les fruits
+			int identifiant = modifiedFruits[i][Api.OBJECT_ID];
+
+			Fruit fruitModifie = fruits.get(identifiant);
+			if (fruitModifie != null) {
+				fruitModifie.setDefence(modifiedFruits[i][Api.OBJECT_LIFE]);
+				fruitModifie.setHp(modifiedFruits[i][Api.OBJECT_LIFE]);
+			}
+		}
+		
+		// ========= sugarDrops modifiés
+		for (int i = 0; i < modifiedSugarDrops.length; i++) {
+			// Les objets qui bougent sont les équipements et les fruits
+			int identifiant = modifiedSugarDrops[i][Api.OBJECT_ID];
+
+			SugarDrop drop = sugarDrops.get(identifiant);
+			if (drop != null) {
+				// TODO mettre à jour le niveau de sucre
+			}
 		}
 
 	}
 
 	public void updateMap(Integer[][] newObjects, Integer[][] modifiedSugarDrops) {
+		Fruit enemy = null;
+		Equipment equip = null;
+		Chest chest = null;
+		SugarDrop sDrop = null;
+
+		
+		// ==================== Nouveaux objets
+		for (int i = 0; i < newObjects.length; ++i) {
+			switch (newObjects[i][Api.OBJECT_TYPE]) {
+
+			case Api.FRUIT_CHERRY:
+			case Api.FRUIT_KIWI:
+			case Api.FRUIT_NUT:
+				enemy = new Fruit(newObjects[i][Api.OBJECT_TYPE]);
+				fruits.put(newObjects[i][Api.OBJECT_ID], enemy);
+				// TODO Mettre à jour le booléen
+				getCell(newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
+				break;
+
+			case Api.EQUIPMENT_CUTTER:
+			case Api.EQUIPMENT_JUICE_NEEDLE:
+			case Api.EQUIPMENT_LEMONER:
+			case Api.EQUIPMENT_LIGHTER:
+			case Api.EQUIPMENT_PEELER:
+			case Api.EQUIPMENT_RELOADER:
+			case Api.EQUIPMENT_SALT_SNIPER:
+			case Api.EQUIPMENT_TEA_SPOON:
+			case Api.EQUIPMENT_TOOTHPICK:
+				equip = new Equipment(newObjects[i][Api.OBJECT_TYPE]);
+				equipments.put(newObjects[i][Api.OBJECT_ID], equip);
+				// TODO Mettre à jour les munitions
+				getCell(newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y]).addEquipment(equip);
+				break;
+
+			case Api.CHEST:
+				chest = new Chest();
+				chests.put(newObjects[i][Api.OBJECT_ID], chest);
+				getCell(newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y]).setChest(chest);
+				break;
+
+			case Api.SUGAR_DROP:
+				sDrop = new SugarDrop();
+				sugarDrops.put(newObjects[i][Api.OBJECT_ID], sDrop);
+				getCell(newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y]).setSugarDrop(sDrop);
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+		// ========= sugarDrops modifiés
+		for (int i = 0; i < modifiedSugarDrops.length; i++) {
+			// Les objets qui bougent sont les équipements et les fruits
+			int identifiant = modifiedSugarDrops[i][Api.OBJECT_ID];
+
+			SugarDrop drop = sugarDrops.get(identifiant);
+			if (drop != null) {
+				// TODO mettre à jour le niveau de sucre
+			}
+		}
 	}
 
 	public Integer move(Fruit fruit, Integer x, Integer y) {
@@ -226,7 +369,7 @@ public class Proxy {
 		if (retour == Api.LIFE_GAINED) {
 			drinker.setHp(drinker.getHp()
 					+ Math.min(drinker.getMaxHp() - drinker.getHp(), 5));
-			drinker.setPa(drinker.getPa()-1);
+			drinker.setPa(drinker.getPa() - 1);
 		} else if (retour == Api.DEFENSE_GAINED) {
 			drinker.setDefence(drinker.getDefence()
 					+ Math.min(drinker.getMaxDefence()
@@ -249,9 +392,9 @@ public class Proxy {
 
 	public Integer drawVitamin(Fruit fruit) {
 		Integer retour = Api.drawVitamin(fruit.getId());
-		if(retour == Api.OK) {
-			fruit.setCurVitamins(fruit.getCurVitamins()+1);
-			fruit.setPa(fruit.getPa()-1);
+		if (retour == Api.OK) {
+			fruit.setCurVitamins(fruit.getCurVitamins() + 1);
+			fruit.setPa(fruit.getPa() - 1);
 		}
 		return retour;
 	}
@@ -273,12 +416,22 @@ public class Proxy {
 		}
 		return retour;
 	}
+	
+	public Integer useEquipment(Fruit fruit, Equipment equipment, Equipment target) {
+		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
+				target.getId());
+		if (retour == Api.OK) {
+			// TODO: action
+			fruit.setPa(fruit.getPa() - 1);
+		}
+		return retour;
+	}
 
 	public Integer pickUpEquipment(Fruit picker, Equipment equipment) {
 		Integer retour = Api.pickUpEquipment(picker.getId(), equipment.getId());
-		if(retour == Api.OK) {
-			//TODO: action
-			picker.setPa(picker.getPa()-1);
+		if (retour == Api.OK) {
+			// TODO: action
+			picker.setPa(picker.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
@@ -286,10 +439,11 @@ public class Proxy {
 
 	public Integer dropEquipment(Fruit dropper, Equipment equipment, Integer x,
 			Integer y) {
-		Integer retour = Api.dropEquipment(dropper.getId(), equipment.getId(), x, y);
-		if(retour == Api.OK) {
-			//TODO: action
-			dropper.setPa(dropper.getPa()-1);
+		Integer retour = Api.dropEquipment(dropper.getId(), equipment.getId(),
+				x, y);
+		if (retour == Api.OK) {
+			// TODO: action
+			dropper.setPa(dropper.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
@@ -322,9 +476,9 @@ public class Proxy {
 
 	public Integer openChest(Fruit oppener, Chest chest) {
 		Integer retour = Api.openChest(oppener.getId(), chest.getId());
-		if(retour == Api.OK) {
-			//TODO: action
-			oppener.setPa(oppener.getPa()-1);
+		if (retour == Api.OK) {
+			// TODO: action
+			oppener.setPa(oppener.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
@@ -332,9 +486,9 @@ public class Proxy {
 
 	public Integer stockSugar(Fruit stocker) {
 		Integer retour = Api.stockSugar(stocker.getId());
-		if(retour == Api.OK) {
-			//TODO: action
-			stocker.setPa(stocker.getPa()-1);
+		if (retour == Api.OK) {
+			// TODO: action
+			stocker.setPa(stocker.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
@@ -342,9 +496,9 @@ public class Proxy {
 
 	public Integer sellEquipment(Fruit seller, Equipment equipment) {
 		Integer retour = Api.sellEquipment(seller.getId(), equipment.getId());
-		if(retour == Api.OK) {
-			//TODO: action
-			seller.setPa(seller.getPa()-1);
+		if (retour == Api.OK) {
+			// TODO: action
+			seller.setPa(seller.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
@@ -352,9 +506,9 @@ public class Proxy {
 
 	public Integer buyEquipment(Fruit buyer, Equipment equipment) {
 		Integer retour = Api.buyEquipment(buyer.getId(), equipment.getType());
-		if(retour == Api.OK) {
-			//TODO: action
-			buyer.setPa(buyer.getPa()-1);
+		if (retour == Api.OK) {
+			// TODO: action
+			buyer.setPa(buyer.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
