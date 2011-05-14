@@ -437,11 +437,12 @@ public class Proxy {
 
 	public Integer pickUpSugar(Fruit picker, SugarDrop sugarDrop) {
 		Integer retour = Api.pickUpSugar(picker.getId(), sugarDrop.getId());
-		if (retour == Api.OK) {
-			// sugarDrop.setNbrElement(sugarDrop.getNbrElement()-1); TODO:
-			// demander combien on prend
-			picker.setPa(picker.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
+		if(retour == Api.OK) {
+			int newSugarDropValue = Math.max(sugarDrop.getNbrElement() - 10, 0);
+			int newFruitValue = Math.min(picker.getMaxSucre(), picker.getSucre()+(sugarDrop.getNbrElement()-newSugarDropValue));
+			sugarDrop.setNbrElement(newSugarDropValue);
+			picker.setSucre(newFruitValue);
+			picker.setPa(picker.getPa()-1);
 		}
 		return retour;
 	}
