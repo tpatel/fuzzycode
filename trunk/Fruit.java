@@ -9,7 +9,7 @@ public class Fruit {
 	protected Integer hp;
 	protected Integer maxHp; //Points de vie maximum
 	protected Integer defence;
-	protected Integer maxDefence; //Points de défence max
+	protected Integer maxDefense; //Points de défense max
 	protected Integer speed;
 	protected Integer attack;
 	protected Integer range;
@@ -67,12 +67,12 @@ public class Fruit {
 		this.fruitType = fruitType;
 	}
 
-	public Integer getMaxDefence() {
-		return maxDefence;
+	public Integer getMaxDefense() {
+		return maxDefense;
 	}
 
 	public void setMaxDefence(Integer maxDefence) {
-		this.maxDefence = maxDefence;
+		this.maxDefense = maxDefence;
 	}
 
 	public Integer getMaxHp() {
@@ -115,7 +115,7 @@ public class Fruit {
 		this.hp = hp;
 	}
 
-	public Integer getDefence() {
+	public Integer getDefense() {
 		return defence;
 	}
 
@@ -159,7 +159,7 @@ public class Fruit {
 	public void setType(Integer type) {
 		this.type = type;
 		
-		this.maxDefence = this.type == Api.FRUIT_CHERRY ? 0 : (this.type == Api.FRUIT_KIWI ? 1 : 2);
+		this.maxDefense = this.type == Api.FRUIT_CHERRY ? 0 : (this.type == Api.FRUIT_KIWI ? 1 : 2);
 		this.maxHp = this.type == Api.FRUIT_CHERRY ? 15 : (this.type == Api.FRUIT_KIWI ? 20 : 25);
 	}
 

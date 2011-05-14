@@ -3,8 +3,10 @@ package fuzzycode;
 public class Building {
 
 	public Building(int type) {
-		// TODO Auto-generated constructor stub
+		this.type = type;
 	}
+	
+	private int type;
 
 }
 

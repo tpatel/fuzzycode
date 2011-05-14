@@ -339,7 +339,7 @@ public class Proxy {
 		if (retour == Api.HIT) {
 			target
 					.setHp(Math.max(0, shooter.getAttack()
-							- target.getDefence()));
+							- target.getDefense()));
 			shooter.setPa(shooter.getPa() - 1);
 		} else if (retour == Api.SPLATCHED) {
 			// TODO: supprimer l'ennemi !!
@@ -356,8 +356,8 @@ public class Proxy {
 					+ Math.min(drinker.getMaxHp() - drinker.getHp(), 5));
 			drinker.setPa(drinker.getPa() - 1);
 		} else if (retour == Api.DEFENSE_GAINED) {
-			drinker.setDefence(drinker.getDefence()
-					+ Math.min(drinker.getMaxDefence() - drinker.getDefence(),
+			drinker.setDefence(drinker.getDefense()
+					+ Math.min(drinker.getMaxDefense() - drinker.getDefense(),
 							1)); // drinker.defence++
 			drinker.setPa(drinker.getPa() - 1);
 		}

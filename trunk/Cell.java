@@ -112,5 +112,10 @@ public class Cell {
 	public SugarDrop getSugar() {
 		return this.sugarDrop;
 	}
+	
+	public Boolean checkIntegrity(){
+		// TODO
+		return true;
+	}
 }
 
