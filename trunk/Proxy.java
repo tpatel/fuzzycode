@@ -53,15 +53,19 @@ public class Proxy {
 		return map[x][y];
 	}
 
-	public Integer getMapWitdh() {
+	public Integer getMapWidth() {
 		return map.length;
 	}
 
 	public Integer getMapHeight() {
-		if (getMapWitdh() == 0)
+		if (getMapWidth() == 0)
 			return 0;
 
 		return (map[0]).length;
+	}
+	
+	public Cell[][] getMap() {
+		return map;
 	}
 
 	public int getLimitCherry() {
@@ -88,12 +92,24 @@ public class Proxy {
 		this.maxNbTurns = maxNbTurns;
 	}
 
+	public Proxy() {
+		this.fruits = new HashMap<Integer, Fruit>();
+		this.equipments = new HashMap<Integer, Equipment>();
+		this.buildings = new HashMap<Integer, Building>();
+		this.chests = new HashMap<Integer, Chest>();
+		this.sugarDrops = new HashMap<Integer, SugarDrop>();
+
+		this.map = new Cell[0][0];
+	}
+
 	public void initMap(Integer[][] architecture, Integer[][] fruits,
 			Integer[][] buildings, Integer limitCherry, Integer limitKiwi,
 			Integer limitNut, Integer vitaminGoal, Integer maxNbTurns) {
+		this.map = new Cell[architecture.length][architecture[0].length];
+
 		Building building = null;
-		for (int i = 0; i < getMapWitdh(); ++i) {
-			for (int j = 0; j < getMapHeight(); ++j) {
+		for (int i = 0; i < getMapWidth(); ++i) {
+			for (int j = getMapHeight() - 1; j >= 0; --j) {
 				switch (architecture[i][j]) {
 				case Api.NOTHING:
 					break;
@@ -119,10 +135,11 @@ public class Proxy {
 
 		for (int i = 0; i < fruits.length; ++i) {
 			Fruit fruit = new Fruit(fruits[i][Api.OBJECT_TYPE]);
-			// TODO Mettre à jour le booléen ami
+			fruit.setIsAmi(true);
+			Integer positionX = fruits[i][Api.OBJECT_X];
+			Integer positionY = fruits[i][Api.OBJECT_Y];
+			moveFruit(fruit, -1, -1, positionX, positionY);
 			this.fruits.put(fruits[i][Api.OBJECT_ID], fruit);
-			getCell(fruits[i][Api.OBJECT_X], fruits[i][Api.OBJECT_Y]).setFruit(
-					fruit);
 		}
 
 		for (int i = 0; i < buildings.length; ++i) {
@@ -157,9 +174,10 @@ public class Proxy {
 			case Api.FRUIT_NUT:
 				enemy = new Fruit(newObjects[i][Api.OBJECT_TYPE]);
 				fruits.put(newObjects[i][Api.OBJECT_ID], enemy);
-				// TODO Mettre à jour le booléen
-				getCell(newObjects[i][Api.OBJECT_X],
-						newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
+				enemy.setIsAmi(true);
+				Integer positionX = newObjects[i][Api.OBJECT_X];
+				Integer positionY = newObjects[i][Api.OBJECT_Y];
+				moveFruit(enemy, -1, -1, positionX, positionY);
 				break;
 
 			case Api.EQUIPMENT_CUTTER:
@@ -223,11 +241,10 @@ public class Proxy {
 			} else {
 				Fruit fruitBouge = fruits.get(identifiant);
 				if (fruitBouge != null) {
-					getCell(movedObjects[i][Api.OBJECT_X],
-							movedObjects[i][Api.OBJECT_Y]).setFruit(null);
-					getCell(movedObjects[i][Api.OBJECT_NEW_X],
-							movedObjects[i][Api.OBJECT_NEW_Y]).setFruit(
-							fruitBouge);
+					moveFruit(fruitBouge, movedObjects[i][Api.OBJECT_X],
+							movedObjects[i][Api.OBJECT_Y],
+							movedObjects[i][Api.OBJECT_NEW_X],
+							movedObjects[i][Api.OBJECT_NEW_Y]);
 				}
 			}
 		}
@@ -271,10 +288,10 @@ public class Proxy {
 			case Api.FRUIT_KIWI:
 			case Api.FRUIT_NUT:
 				enemy = new Fruit(newObjects[i][Api.OBJECT_TYPE]);
+				Integer positionX = newObjects[i][Api.OBJECT_X];
+				Integer positionY = newObjects[i][Api.OBJECT_Y];
+				moveFruit(enemy, -1, -1, positionX, positionY);
 				fruits.put(newObjects[i][Api.OBJECT_ID], enemy);
-				// TODO Mettre à jour le booléen
-				getCell(newObjects[i][Api.OBJECT_X],
-						newObjects[i][Api.OBJECT_Y]).setFruit(enemy);
 				break;
 
 			case Api.EQUIPMENT_CUTTER:
@@ -322,6 +339,29 @@ public class Proxy {
 				drop.setNbrElement(modifiedSugarDrops[i][Api.OBJECT_SUGAR]);
 			}
 		}
+	}
+	
+	public List<Fruit> getFruits(boolean ami){
+		List<Fruit> fruitsRetour = new ArrayList<Fruit>();
+		for (Fruit fruit : fruits.values()) {
+			if (fruit.getIsAmi() == ami){
+				fruitsRetour.add(fruit);
+			}
+		}
+		return fruitsRetour;
+	}
+	
+	
+
+	private void moveFruit(Fruit fruit, Integer oldX, Integer oldY,
+			Integer newX, Integer newY) {
+		if (oldX > 0 && oldY > 0) {
+			getCell(oldX, oldY).setFruit(null);
+		}
+		fruit.setX(newX);
+		fruit.setY(newY);
+		getCell(newX, newY).setFruit(fruit);
+
 	}
 
 	public Integer move(Fruit fruit, Integer x, Integer y) {
@@ -402,8 +442,9 @@ public class Proxy {
 		}
 		return retour;
 	}
-	
-	public Integer useEquipment(Fruit fruit, Equipment equipment, Equipment target) {
+
+	public Integer useEquipment(Fruit fruit, Equipment equipment,
+			Equipment target) {
 		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
 				target.getId());
 		if (retour == Api.OK) {
@@ -437,12 +478,14 @@ public class Proxy {
 
 	public Integer pickUpSugar(Fruit picker, SugarDrop sugarDrop) {
 		Integer retour = Api.pickUpSugar(picker.getId(), sugarDrop.getId());
-		if(retour == Api.OK) {
+		if (retour == Api.OK) {
 			int newSugarDropValue = Math.max(sugarDrop.getNbrElement() - 10, 0);
-			int newFruitValue = Math.min(picker.getMaxSucre(), picker.getSucre()+(sugarDrop.getNbrElement()-newSugarDropValue));
+			int newFruitValue = Math.min(picker.getMaxSucre(), picker
+					.getSucre()
+					+ (sugarDrop.getNbrElement() - newSugarDropValue));
 			sugarDrop.setNbrElement(newSugarDropValue);
 			picker.setSucre(newFruitValue);
-			picker.setPa(picker.getPa()-1);
+			picker.setPa(picker.getPa() - 1);
 		}
 		return retour;
 	}

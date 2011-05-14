@@ -60,7 +60,7 @@ public abstract class Strategy {
     }
     
     protected List<Node> findPath(int x1,int y1,int x2,int y2) {
-    	int w = proxy.getMapWitdh();
+    	int w = proxy.getMapWidth();
     	int h = proxy.getMapHeight();
     	Node[][] aNodes = new Node[w][h]; List<Node> nodes = new ArrayList<Node>();
     	for (int i=0; i<w; i++) for (int j=0; j<h; j++) { aNodes[i][j] = new Node(i,j); nodes.add(aNodes[i][j]); }
