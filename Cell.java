@@ -1,6 +1,8 @@
+import java.util.*;
+
 public class Cell {
 	private Fruit fruit;
-	private List<Equipement> equipements;
+	private List<Equipment> equipments;
 	private Building building;
 	private Chest chest;
 	private SugarDrop sugarDrop;
@@ -22,7 +24,7 @@ public class Cell {
 	}
 	
 	public Boolean hasEquipment() {
-		return this.getEquipements().size() > 0;
+		return this.getEquipments().size() > 0;
 	}
 	
 	public Boolean hasBuilding() {
@@ -41,7 +43,7 @@ public class Cell {
 		return this.fruit;
 	}
 	
-	public List<Equipement> getEquipments() {
+	public List<Equipment> getEquipments() {
 		return this.equipment;
 	}
 	
