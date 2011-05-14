@@ -47,7 +47,7 @@ public class Fruit {
 		this.isAmi = isAmi;
 	}
 
-	public Fruit(Integer integer) {
+	public Fruit(Integer type) {
 		this.setType(type);
 	}
 	
@@ -159,8 +159,8 @@ public class Fruit {
 	public void setType(Integer type) {
 		this.type = type;
 		
-		this.maxDefense = this.type == Api.FRUIT_CHERRY ? 0 : (this.type == Api.FRUIT_KIWI ? 1 : 2);
-		this.maxHp = this.type == Api.FRUIT_CHERRY ? 15 : (this.type == Api.FRUIT_KIWI ? 20 : 25);
+		this.maxDefense = (this.type == Api.FRUIT_CHERRY ? 0 : (this.type == Api.FRUIT_KIWI ? 1 : 2));
+		this.maxHp = (this.type == Api.FRUIT_CHERRY ? 15 : (this.type == Api.FRUIT_KIWI ? 20 : 25));
 	}
 
 	public Integer getAttack() {

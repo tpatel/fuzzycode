@@ -105,7 +105,7 @@ public class Proxy {
 	public void initMap(Integer[][] architecture, Integer[][] fruits,
 			Integer[][] buildings, Integer limitCherry, Integer limitKiwi,
 			Integer limitNut, Integer vitaminGoal, Integer maxNbTurns) {
-		creerMap(architecture.length,architecture[0].length]);
+		creerMap(architecture.length,architecture[0].length);
 
 		Building building = null;
 		for (int i = 0; i < getMapWidth(); ++i) {
