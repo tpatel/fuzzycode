@@ -16,7 +16,13 @@ public class StrategyManager implements FruitSaladAi {
 	Strategy runningStrategy;
 	// strategies en attente
 	private List<Strategy> pendingStrategies;
-
+	
+	public StrategyManager(){
+		// ajouter ici les différentes stratégies
+		pendingStrategies = new ArrayList<Strategy>();
+		pendingStrategies.add( new DummyStrategy() );
+		runningStrategy = pendingStrategies.get(0);
+	}
 
 	@Override
 	public void mapUpdate(int[][] arg0, int[][] arg1) {
@@ -78,9 +84,6 @@ public class StrategyManager implements FruitSaladAi {
 		}
 		// creation de la map
 		Proxy.getProxy().initMap(architecture, fruits, buildings, limitCherry, limitKiwi, limitNut, vitaminGoal, maxNbTurns);
-		// ajouter ici les différentes stratégies
-		pendingStrategies = new ArrayList<Strategy>();
-		pendingStrategies.add( new DummyStrategy() );
 	}
 
 
