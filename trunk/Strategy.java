@@ -23,7 +23,6 @@ public abstract class Strategy {
      */
     public abstract Double adequacy();
     
-    //static final int INFINITY = Integer.MAX_VALUE;
     static final int[][] neighbourPattern = {{-1,-1},{0,-1},{1,-1},{-1,0},{1,0},{-1,1},{0,1},{1,1}};
     protected Proxy proxy;
     protected class Node implements Comparable {
@@ -41,18 +40,10 @@ public abstract class Strategy {
     protected List<Node> findPath(int x1,int y1,int x2,int y2) {
     	int w = proxy.getMapWitdh();
     	int h = proxy.getMapHeight();
-    	/*int[][] dist = new int[w][h];
-    	boolean[][] visited = new boolean[w][h];
-    	for (int i=0; i<w; i++) for (int j=0; j<h; j++) dist[i][j] = INFINITY;
-    	for (int i=0; i<w; i++) for (int j=0; j<h; j++) visited[i][j] = false;
-    	dist[x1][y1] = 0;
-    	visited[x1][y1] = true;*/
-    	
     	Node[][] aNodes = new Node[w][h]; List<Node> nodes = new ArrayList<Node>();
     	for (int i=0; i<w; i++) for (int j=0; j<h; j++) { aNodes[i][j] = new Node(i,j); nodes.add(aNodes[i][j]); }
-    	Node begin = aNodes[x1][y1], end=null;
-    	//current.x = x1; current.y = y1;
-    	begin.d = 0;
+    	aNodes[x1][y1].d = 0;
+    	Node end=null;
     	while (nodes.size()!=0) {
         	Collections.sort(nodes);
         	Node u = nodes.get(0);
@@ -78,11 +69,5 @@ public abstract class Strategy {
     		return nodes;
     	}
     }
-    
-    /*public static void main(String[] args) {
-    	System.out.println("ok");
-    	
-    }*/
-    
     
 }
