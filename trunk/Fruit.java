@@ -97,7 +97,7 @@ public class Fruit {
 	}
 
 	public Integer getSpeed() {
-		if(this.type == Fruit.Type.Cerise) {
+		if(this.type == Api.FRUIT_CHERRY) {
 			if(this.getWeight() >= 0 && this.getWeight() <= 20)		return 6;
 			if(this.getWeight() >= 21 && this.getWeight() <= 30)	return 5;
 			if(this.getWeight() >= 31 && this.getWeight() <= 35)	return 4;
@@ -105,13 +105,13 @@ public class Fruit {
 			if(this.getWeight() >= 40 && this.getWeight() <= 42)	return 2;
 			if(this.getWeight() >= 43 && this.getWeight() <= 45)	return 1;
 		}
-		if(this.type == Fruit.Type.Kiwi) {
+		if(this.type == Api.FRUIT_KIWI) {
 			if(this.getWeight() >= 0 && this.getWeight() <= 35)		return 4;
 			if(this.getWeight() >= 36 && this.getWeight() <= 45)	return 3;
 			if(this.getWeight() >= 46 && this.getWeight() <= 51)	return 2;
 			if(this.getWeight() >= 52 && this.getWeight() <= 55)	return 1;
 		}
-		if(this.type == Fruit.Type.Noix) {
+		if(this.type == Api.FRUIT_NUT) {
 			if(this.getWeight() >= 0 && this.getWeight() <= 42)		return 2;
 			if(this.getWeight() >= 43 && this.getWeight() <= 65)	return 1;
 		}
