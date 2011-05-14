@@ -8,7 +8,7 @@ public class Fruit {
 	protected Integer y;
 	protected Integer hp;
 	protected Integer maxHp; //Points de vie maximum
-	protected Integer defence;
+	protected Integer defense;
 	protected Integer maxDefense; //Points de défense max
 	protected Integer speed;
 	protected Integer attack;
@@ -116,11 +116,11 @@ public class Fruit {
 	}
 
 	public Integer getDefense() {
-		return defence;
+		return defense;
 	}
 
-	public void setDefence(Integer defence) {
-		this.defence = defence;
+	public void setDefense(Integer defense) {
+		this.defense = defense;
 	}
 
 	public Integer getSpeed() {
