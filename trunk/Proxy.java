@@ -195,55 +195,111 @@ public class Proxy {
 			} else if(drinker.getMaxDefence() - drinker.getDefence() > 0) {
 				drinker.setDefence(drinker.getDefence() + Math.min(drinker.getMaxDefence() - drinker.getDefence(), 1)); //drinker.defence++
 			}
+			drinker.setPa(drinker.getPa()-1);
 		}
 		return retour;
 	}
 
 	public Integer fructify(Fruit creator, Integer desiredFruitType, Integer x,
 			Integer y) {
-		return 0;
+		Integer retour = Api.fructify(creator.getFruitType(), x, y);
+		if(retour == Api.OK) {
+			//TODO: action
+			creator.setPa(creator.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer drawVitamin(Fruit fruit) {
-		return 0;
+		Integer retour = Api.drawVitamin(fruit.getId());
+		if(retour == Api.OK) {
+			//TODO: action
+			fruit.setPa(fruit.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer useEquipment(Fruit fruit, Equipment equipment, Fruit target) {
-		return 0;
+		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(), target.getId());
+		if(retour == Api.OK) {
+			//TODO: action
+			fruit.setPa(fruit.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer pickUpEquipment(Fruit picker, Equipment equipment) {
-		return 0;
+		Integer retour = Api.pickUpEquipment(picker.getId(), equipment.getId());
+		if(retour == Api.OK) {
+			//TODO: action
+			picker.setPa(picker.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer dropEquipment(Fruit dropper, Equipment equipment, Integer x,
 			Integer y) {
-		return 0;
+		Integer retour = Api.dropEquipment(dropper.getId(), equipment.getId(), x, y);
+		if(retour == Api.OK) {
+			//TODO: action
+			dropper.setPa(dropper.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer pickUpSugar(Fruit picker, SugarDrop sugarDrop) {
-		return 0;
+		Integer retour = Api.pickUpSugar(picker.getId(), sugarDrop.getId());
+		if(retour == Api.OK) {
+			//TODO: action
+			picker.setPa(picker.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer dropSugar(Fruit dropper, Integer quantity, Integer x,
 			Integer y) {
-		return 0;
+		Integer retour = Api.dropSugar(dropper.getId(), quantity, x, y);
+		if(retour == Api.OK) {
+			//TODO: action
+			dropper.setPa(dropper.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer openChest(Fruit oppener, Chest chest) {
-		return 0;
+		Integer retour = Api.openChest(oppener.getId(), chest.getId());
+		if(retour == Api.OK) {
+			//TODO: action
+			oppener.setPa(oppener.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer stockSugar(Fruit stocker) {
-		return 0;
+		Integer retour = Api.stockSugar(stocker.getId());
+		if(retour == Api.OK) {
+			//TODO: action
+			stocker.setPa(stocker.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer sellEquipment(Fruit seller, Equipment equipment) {
-		return 0;
+		Integer retour = Api.sellEquipment(seller.getId(), equipment.getId());
+		if(retour == Api.OK) {
+			//TODO: action
+			seller.setPa(seller.getPa()-1);
+		}
+		return retour;
 	}
 
 	public Integer buyEquipment(Fruit buyer, Equipment equipment) {
-		return 0;
+		Integer retour = Api.buyEquipment(buyer.getId(), equipment.getType());
+		if(retour == Api.OK) {
+			//TODO: action
+			buyer.setPa(buyer.getPa()-1);
+		}
+		return retour;
 	}
 
 }
