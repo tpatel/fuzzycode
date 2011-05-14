@@ -213,7 +213,7 @@ public class Proxy {
 	public Integer drawVitamin(Fruit fruit) {
 		Integer retour = Api.drawVitamin(fruit.getId());
 		if(retour == Api.OK) {
-			//TODO: action
+			fruit.setCurVitamins(fruit.getCurVitamins()+1);
 			fruit.setPa(fruit.getPa()-1);
 		}
 		return retour;

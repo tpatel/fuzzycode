@@ -12,6 +12,15 @@ public class Fruit {
 	protected Integer id;
 	protected Integer pa; //Points d'actions
 	protected Integer fruitType;
+	protected Integer curVitamins;
+
+	public Integer getCurVitamins() {
+		return curVitamins;
+	}
+
+	public void setCurVitamins(Integer curVitamins) {
+		this.curVitamins = curVitamins;
+	}
 
 	public Integer getFruitType() {
 		return fruitType;
