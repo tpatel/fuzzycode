@@ -11,7 +11,15 @@ public class Fruit {
 	protected Integer attack;
 	protected Integer id;
 	protected Integer pa; //Points d'actions
+	protected Integer fruitType;
 
+	public Integer getFruitType() {
+		return fruitType;
+	}
+
+	public void setFruitType(Integer fruitType) {
+		this.fruitType = fruitType;
+	}
 
 	public Integer getMaxDefence() {
 		return maxDefence;
