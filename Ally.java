@@ -4,7 +4,11 @@ import java.util.List;
 public class Ally extends Fruit {
         private List<Equipment> equipements;
         
-        public List<Equipment> getEquipments() {
+        public Ally(Integer integers) {
+			// TODO Auto-generated constructor stub
+		}
+
+		public List<Equipment> getEquipments() {
         	return equipements;
         }
         

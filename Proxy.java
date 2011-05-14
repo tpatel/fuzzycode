@@ -1,20 +1,10 @@
 package fuzzycode;
 
+import game.Api;
+
 import java.util.*;
 
 public class Proxy {
-
-	private final static int OBJECT_ID = 0;
-	private final static int OBJECT_X = 1;
-	private final static int OBJECT_Y = 2;
-	private final static int OBJECT_TYPE = 3;
-	private final static int NOTHING = 10;
-	private final static int WALL = 11;
-	private final static int BUILDING_VITAMIN_SOURCE = 12;
-	private final static int BUILDING_SUGAR_TREE = 13;
-	private final static int BUILDING_JUICE_BARREL = 14;
-	private final static int BUILDING_SUGAR_BOWL = 15;
-	private final static int BUILDING_FRUCTIFICATION_TANK = 16;
 
 	private Map<Integer, Fruit> fruits;
 	private Map<Integer, Equipment> equipments;
@@ -66,35 +56,35 @@ public class Proxy {
 		for (int i = 0; i < getMapWitdh(); ++i) {
 			for (int j = 0; j < getMapHeight(); ++j) {
 				switch (architecture[i][j]) {
-				case NOTHING:
+				case Api.NOTHING:
 					break;
 
-				case WALL:
+				case Api.WALL:
 					getCell(i, j).setWall(true);
 					break;
 
-				case BUILDING_VITAMIN_SOURCE:
-					building = new Building(Building.VITAMIN_SOURCE);
+				case Api.BUILDING_VITAMIN_SOURCE:
+					building = new Building(Api.BUILDING_VITAMIN_SOURCE);
 					getCell(i, j).setBuilding(building);
 					break;
 
-				case BUILDING_FRUCTIFICATION_TANK:
-					building = new Building(Building.FRUCTIFICATION_TANK);
+				case Api.BUILDING_FRUCTIFICATION_TANK:
+					building = new Building(Api.BUILDING_FRUCTIFICATION_TANK);
 					getCell(i, j).setBuilding(building);
 					break;
 
-				case BUILDING_JUICE_BARREL:
-					building = new Building(Building.JUICE_BARREL);
+				case Api.BUILDING_JUICE_BARREL:
+					building = new Building(Api.BUILDING_JUICE_BARREL);
 					getCell(i, j).setBuilding(building);
 					break;
 
-				case BUILDING_SUGAR_BOWL:
-					building = new Building(Building.SUGAR_BOWL);
+				case Api.BUILDING_SUGAR_BOWL:
+					building = new Building(Api.BUILDING_SUGAR_BOWL);
 					getCell(i, j).setBuilding(building);
 					break;
 
-				case BUILDING_SUGAR_TREE:
-					building = new Building(Building.SUGAR_TREE);
+				case Api.BUILDING_SUGAR_TREE:
+					building = new Building(Api.BUILDING_SUGAR_TREE);
 					getCell(i, j).setBuilding(building);
 					break;
 
@@ -103,7 +93,14 @@ public class Proxy {
 		}
 
 		for (int i = 0; i< fruits.length; ++i) {
-
+			Ally fruit = new Ally(fruits[i][Api.OBJECT_TYPE]);
+			this.fruits.put(fruits[i][Api.OBJECT_ID], fruit);
+			getCell(fruits[i][Api.OBJECT_X], fruits[i][Api.OBJECT_Y]).setFruit(fruit);
+		}
+		
+		for (int i = 0; i< building.length; ++i) {
+			Building 
+			getCell(fruits[i][Api.OBJECT_X], fruits[i][Api.OBJECT_Y]).setFruit(fruit);
 		}
 	}
 
