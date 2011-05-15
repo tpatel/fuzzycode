@@ -15,8 +15,9 @@ public class StrategyManager implements FruitSaladAi {
 	public StrategyManager(){
 		// ajouter ici les différentes stratégies
 		pendingStrategies = new ArrayList<Strategy>();
-		//pendingStrategies.add( new Recupere() );
+		pendingStrategies.add( new Recupere() );
 		pendingStrategies.add( new Sparta() );
+		pendingStrategies.add( new HomeSweetHome() );
 		
 	}
 	
@@ -62,34 +63,63 @@ public class StrategyManager implements FruitSaladAi {
 		
 		Proxy.getProxy().updateMap(getWrap(arg0), getWrap(arg1), getWrap(arg2), getWrap(arg3), getWrap(arg4));
 		
-		//Strategy.AdequacyResult bestAdqResult;
+		for(Strategy s : pendingStrategies){ s.eachFrame(); }
+		
+		Strategy.AdequacyResult bestAdqResult;
 		List<Fruit> availableFruits = Proxy.getProxy().getFruits(true);
-	//	Strategy bestStrategy;
+		Strategy bestStrategy;
 		// choix des strategies
-		/*do{
+		List<String> runningStrategiesNames = new ArrayList<String>();
+		do{
+			System.out.println("Choosing between available strategies");
 			bestAdqResult = null;
 			bestStrategy = null;
 			for(Strategy s : pendingStrategies ){
-				Strategy.AdequacyResult adqResult = s.adequacy(availableFruits);   
+				System.out.println(">>>>>>>>>>>>");
+				System.out.print("Pending strategy: ");
+				System.out.println( s.name() );
+				Strategy.AdequacyResult adqResult = s.adequacy(availableFruits);  
+				System.out.print("adequacy : ");
+				System.out.println( String.valueOf(s.adequacy(availableFruits).value) );
 				if((bestAdqResult == null)||(bestAdqResult.value < adqResult.value)){
 					if(adqResult.value > MIN_ADQ_RESULT){
 						bestStrategy = s;
 						bestAdqResult = adqResult;
 					}
 				}
+				System.out.println("<<<<<<<<<<<<");
 			}
-			
 			if(bestStrategy != null) {
+				System.out.print("Best strategy: ");
+				System.out.println( bestStrategy.name() );
+				runningStrategiesNames.add(bestStrategy.name());
 				bestStrategy.run(); 
 				availableFruits.removeAll(bestAdqResult.neededFruits);
 			}
-		} while(bestStrategy != null);*/
-		pendingStrategies.get(0).computeAdequacy(availableFruits);
-		pendingStrategies.get(0).run();
+			System.out.print("Remaining fruits: ");
+			System.out.println(availableFruits.size());
+		} while((bestStrategy != null) && (availableFruits.size() > 0));
+		
+		System.out.println("#############################################");
+		System.out.println("running strategies:");
+		for(String name : runningStrategiesNames){
+			System.out.println(name);
+		}
+		System.out.println("#############################################");
+		
+		//pendingStrategies.get(0).computeAdequacy(availableFruits);
+		//pendingStrategies.get(0).run();
 	}
 
 	@Override
-	public void stop(){} // JAVAjavajavajavaJAVAjavaJAVAjavaaaaa
+	public void stop(){
+		for(Fruit f : Proxy.getProxy().getFruits(true)){
+			if(f.getCurVitamins() > 0){
+				System.out.println("oooooooooooooooooooo  Too bad, one of the fruits was carrying vitamins");
+			}
+		}
+		
+	} // JAVAjavajavajavaJAVAjavaJAVAjavaaaaa
 	
 	@Override
 	public void initGame(int[][] arg0, int[][] arg1, int[][] arg2,	int limitCherry, int limitKiwi, int limitNut, int vitaminGoal, int maxNbTurns) {

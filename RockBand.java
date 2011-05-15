@@ -9,6 +9,8 @@ import java.util.List;
 public class RockBand extends Strategy {
 	private List<Fruit> availableFruits = new ArrayList<Fruit>();
 
+	public String name() { return "RockBand"; }
+	
 	@Override
 	public AdequacyResult computeAdequacy(List<Fruit> availableFruits) {
 		
@@ -19,8 +21,9 @@ public class RockBand extends Strategy {
 		
 		
 		
+		
 		this.availableFruits.addAll(availableFruits);
-		return new AdequacyResult(1.0, availableFruits);
+		return new AdequacyResult(0.8, availableFruits);
 	}
 
 	@Override

@@ -12,6 +12,10 @@ public abstract class Strategy {
 		this.cachedAdequacy = new AdequacyResult(0.0, new ArrayList<Fruit>());
 	}
 
+	public void eachFrame(){ }
+	
+	public String name(){ return "Strategy"; }
+	
 	public class AdequacyResult {
 		public AdequacyResult(Double value, List<Fruit> neededFruits) {
 			this.value = value;
@@ -57,7 +61,7 @@ public abstract class Strategy {
 	public AdequacyResult adequacy(List<Fruit> availableFruits) {
 		if (oncePerFrame) {
 			cachedAdequacy = computeAdequacy(availableFruits);
-			oncePerFrame = false;
+			//oncePerFrame = false;
 		}
 		return cachedAdequacy;
 	}
