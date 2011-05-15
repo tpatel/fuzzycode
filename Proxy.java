@@ -517,8 +517,8 @@ public class Proxy {
 
 	public Integer stockSugar(Fruit stocker) {
 		Integer retour = Api.stockSugar(stocker.getId());
+		System.out.println("Stockage du sucre depuis " + stocker.getX() + "/"+ stocker.getY());
 		if (retour == Api.OK) {
-			System.out.println("Stockage du sucre!");
 			this.totalSugar += stocker.getSugar();
 			stocker.setSugar(0);
 			this.totalVitamins += stocker.getCurVitamins();

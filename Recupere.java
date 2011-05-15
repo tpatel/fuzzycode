@@ -18,55 +18,47 @@ public class Recupere extends Strategy {
 	@Override
 	public void run() {
 		List<Fruit> lf = availableFruits;
-		// for (int i = 0; i < availableFruits.size(); i++) {
-		// System.out.println(availableFruits.get(i).isFriend() + " "
-		// + availableFruits.get(i).id + " "
-		// + availableFruits.get(i).getX());
-		// }
+
 		for (int k = 0; k < lf.size(); k++) {
 			Fruit f = lf.get(k);
 			while (f.getPa() > 0) {
+				
+				Integer typeBuilding = null;
 				if (f.getCurVitamins() == 0) {
-					Point dest = Proxy.getProxy().getBuildingNeutral(Api.BUILDING_VITAMIN_SOURCE);
-					List<Node> list = findPath(f.getX(), f.getY(), dest.x,
-							dest.y, true);
-					if (list == null) {
-						// On ne fait rien
-						f.setPa(f.getPa() - 1);
-					} else {
-						if (list.size() == 0) {
-							Proxy.getProxy().drawVitamin(f);
-						} else {
-							Integer positionX = list.get(Math.min(list.size(), f.getSpeed()) - 1).x;
-							Integer positionY = list.get(Math.min(list.size(), f.getSpeed()) - 1).y;
-							Proxy.getProxy().move(f,
-									list.get(list.size() - 1).x,
-									list.get(list.size() - 1).y);
-						} 
-						
-					}
+					typeBuilding = Api.BUILDING_VITAMIN_SOURCE;
 				} else {
-					Point dest = Proxy.getProxy().getBuildingFriend(Api.BUILDING_SUGAR_BOWL);
-					List<Node> list = findPath(f.getX(), f.getY(), dest.x,
-							dest.y, true);
-					if (list == null) {
-						// On ne fait rien
-						f.setPa(f.getPa() - 1);
-					} else {
-						if (list.size() == 0) {
-							Proxy.getProxy().stockSugar(f);
-						} else if (list.size() < f.getSpeed()) {
-							Proxy.getProxy().move(f,
-									list.get(list.size() - 1).x,
-									list.get(list.size() - 1).y);
-						} else {
-							Proxy.getProxy().move(f,
-									list.get(f.getSpeed() - 1).x,
-									list.get(f.getSpeed() - 1).y);
-						}
-					}
+					typeBuilding = Api.BUILDING_SUGAR_BOWL;
 				}
+				Point dest = null;
+					
+				if (typeBuilding == Api.BUILDING_VITAMIN_SOURCE) {
+					dest = Proxy.getProxy().getBuildingNeutral(typeBuilding);					
+				} else {
+					dest = Proxy.getProxy().getBuildingFriend(typeBuilding);
+				}
+				
+				List<Node> list = findPath(f.getX(), f.getY(), dest.x, dest.y, true);
+				if (list == null) {
+					// On ne fait rien
+					f.setPa(f.getPa() - 1);
+				} else {
+					if (list.size() == 0) {
+						if (typeBuilding == Api.BUILDING_VITAMIN_SOURCE) {
+							Proxy.getProxy().drawVitamin(f);
+						}
+						else 
+							if (Proxy.getProxy().stockSugar(f) != Api.OK) f.setPa(f.getPa() - 1);
+					} else {
+						Integer positionX = list.get(Math.min(list.size(), f.getSpeed()) - 1).x;
+						Integer positionY = list.get(Math.min(list.size(), f.getSpeed()) - 1).y;
+						if (Proxy.getProxy().move(f, positionX, positionY) != Api.OK)
+							f.setPa(f.getPa() - 1);
+					}
+
+				}
+
 			}
+
 		}
 	}
 
