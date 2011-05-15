@@ -117,5 +117,19 @@ public class Cell {
 		// TODO
 		return true;
 	}
+
+	public Cell() {
+		this.fruit = null;
+		this.equipments = new ArrayList<Equipment>();
+		this.building = null;
+		this.chest = null;
+		this.sugarDrop = null;
+		this.controlLevel = 0;
+		this.dangerLevel = 0;
+		this.strategicInterest = 0;
+		this.wall = false;
+	}
+	
+	
 }
 
