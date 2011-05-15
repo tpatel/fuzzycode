@@ -20,7 +20,7 @@ public class Proxy {
 	private Integer vitaminGoal = 0;
 	private Integer maxNbTurns = 0;
 	
-	private Integer totalSugar = 0;
+	private Double totalSugar = 0.0;
 	private Integer totalVitamins = 0;
 
 	private static Proxy instance = null;
@@ -92,7 +92,7 @@ public class Proxy {
 	}
 
 	
-	public Integer getTotalSugar() {
+	public Double getTotalSugar() {
 		return totalSugar;
 	}
 
@@ -145,7 +145,7 @@ public class Proxy {
 
 		for (int i = 0; i < fruits.length; ++i) {
 			creerFruit(fruits[i][Api.OBJECT_ID], fruits[i][Api.OBJECT_X],
-					fruits[i][Api.OBJECT_Y], fruits[i][Api.OBJECT_TYPE], true);
+					fruits[i][Api.OBJECT_Y], fruits[i][Api.OBJECT_TYPE], new Boolean(true));
 		}
 
 		for (int i = 0; i < buildings.length; ++i) {
@@ -525,7 +525,8 @@ public class Proxy {
 	public Integer sellEquipment(Fruit seller, Equipment equipment) {
 		Integer retour = Api.sellEquipment(seller.getId(), equipment.getId());
 		if (retour == Api.OK) {
-			this.totalSugar += equipment.getSellValue();
+			int missingAmmo = equipment.getAmmoMax() - equipment.getAmmo();
+			this.totalSugar += (equipment.getSellValue() - missingAmmo * equipment.getAmmoValue());
 			//TODO : Munitions ?
 			seller.removeEquipment(equipment);
 			seller.setPa(seller.getPa() - 1);
