@@ -525,8 +525,7 @@ public class Proxy {
 	public Integer sellEquipment(Fruit seller, Equipment equipment) {
 		Integer retour = Api.sellEquipment(seller.getId(), equipment.getId());
 		if (retour == Api.OK) {
-			int missingAmmo = equipment.getAmmoMax() - equipment.getAmmo();
-			this.totalSugar += (equipment.getSellValue() - missingAmmo * equipment.getAmmoValue());
+			this.totalSugar += equipment.getSellValue();
 			seller.removeEquipment(equipment);
 			seller.setPa(seller.getPa() - 1);
 		}
