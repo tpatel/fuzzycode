@@ -5,8 +5,8 @@ import java.util.*;
 public class DummyStrategy extends Strategy {
 
 	@Override
-	public Double adequacy() {
-		return 1.0;
+	public AdequacyResult adequacy(List<Fruit> fruits) {
+		return new AdequacyResult(1.0, fruits);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class DummyStrategy extends Strategy {
 		List<Fruit> lf = Proxy.getProxy().getFruits(true);
 		for (int i = 0; i < lf.size(); i++) {
 			Fruit f = lf.get(i);
-			Proxy.getProxy().move(f, f.getX()+(Math.random()>0.5 ? 2 : -2), f.getY()+(Math.random()>0.5 ? 2 : -2));
+			Proxy.getProxy().move(f, f.getX()+(Math.random()>0.5 ? 1 : -1), f.getY()+(Math.random()>0.5 ? 1 : -1));
 		}
 		 
 	}
@@ -47,8 +47,9 @@ public class DummyStrategy extends Strategy {
 	}
 
 	@Override
-	public Double computeAdequacy() {
-		return 1.0;
+	public AdequacyResult computeAdequacy(List<Fruit> availableFruits) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
