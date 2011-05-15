@@ -1,6 +1,5 @@
 package fuzzycode;
 
-import java.awt.Point;
 import java.util.*;
 
 public class DummyStrategy extends Strategy {
