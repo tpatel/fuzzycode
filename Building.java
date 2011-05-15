@@ -2,11 +2,19 @@ package fuzzycode;
 
 public class Building {
 
-	public Building(int type) {
+	private Integer type;
+	
+	public void setType(Integer type) {
 		this.type = type;
 	}
+
+	public Integer getType() {
+		return type;
+	}
 	
-	private int type;
+	public Building(Integer type) {
+		this.setType(type);
+	}	
 
 }
 

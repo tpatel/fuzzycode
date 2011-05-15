@@ -407,16 +407,19 @@ public class Proxy {
 		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
 				target.getId());
 		if (retour == Api.HIT) {
+			if (equipment.getType() == Api.EQUIPMENT_PEELER){
+				target.setDefense(target.getDefense() - 1);
+			} else {
 			target.setHp(Math.max(0, equipment.getAttack()
 					- target.getDefense()));
+			}
 			fruit.setPa(fruit.getPa() - 1);
 		} else if (retour == Api.SPLATCHED) {
 			removeFruit(target);
 			fruit.setPa(fruit.getPa() - 1);
-		} else if (retour == Api.RELOADED) {
+		} else if (retour == Api.RELOADED && equipment.getType() == Api.EQUIPMENT_JUICE_NEEDLE) {
 			fruit.setHp(fruit.getHp() + 4);
 			fruit.setPa(fruit.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -425,8 +428,8 @@ public class Proxy {
 			Equipment target) {
 		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
 				target.getId());
-		if (retour == Api.OK) {
-			// TODO: action
+		if (retour == Api.RELOADED && equipment.getType() == Api.EQUIPMENT_RELOADER) {
+			target.setAmmo(target.getAmmo() + 100);
 			fruit.setPa(fruit.getPa() - 1);
 		}
 		return retour;
