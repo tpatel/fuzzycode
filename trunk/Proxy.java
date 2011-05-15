@@ -14,11 +14,11 @@ public class Proxy {
 
 	private Cell[][] map;
 
-	private int limitCherry = 0;
-	private int limitKiwi = 0;
-	private int limitNut = 0;
-	private int vitaminGoal = 0;
-	private int maxNbTurns = 0;
+	private Integer limitCherry = 0;
+	private Integer limitKiwi = 0;
+	private Integer limitNut = 0;
+	private Integer vitaminGoal = 0;
+	private Integer maxNbTurns = 0;
 
 	private static Proxy instance = null;
 
@@ -68,30 +68,27 @@ public class Proxy {
 		return map;
 	}
 
-	public int getLimitCherry() {
+	public Integer getLimitCherry() {
 		return limitCherry;
 	}
 
-	public int getLimitKiwi() {
+	public Integer getLimitKiwi() {
 		return limitKiwi;
 	}
 
-	public int getLimitNut() {
+	public Integer getLimitNut() {
 		return limitNut;
 	}
 
-	public int getVitaminGoal() {
+	public Integer getVitaminGoal() {
 		return vitaminGoal;
 	}
 
-	public int getMaxNbTurns() {
+	public Integer getMaxNbTurns() {
 		return maxNbTurns;
 	}
 
-	public void setMaxNbTurns(int maxNbTurns) {
-		this.maxNbTurns = maxNbTurns;
-	}
-
+	
 	public Proxy() {
 		this.fruits = new HashMap<Integer, Fruit>();
 		this.equipments = new HashMap<Integer, Equipment>();
@@ -105,7 +102,7 @@ public class Proxy {
 	public void initMap(Integer[][] architecture, Integer[][] fruits,
 			Integer[][] buildings, Integer limitCherry, Integer limitKiwi,
 			Integer limitNut, Integer vitaminGoal, Integer maxNbTurns) {
-		creerMap(architecture.length,architecture[0].length);
+		creerMap(architecture.length, architecture[0].length);
 
 		Building building = null;
 		for (int i = 0; i < getMapWidth(); ++i) {
@@ -176,8 +173,10 @@ public class Proxy {
 			case Api.FRUIT_CHERRY:
 			case Api.FRUIT_KIWI:
 			case Api.FRUIT_NUT:
-				creerFruit(newObjects[i][Api.OBJECT_ID], newObjects[i][Api.OBJECT_X],
-						newObjects[i][Api.OBJECT_Y], newObjects[i][Api.OBJECT_TYPE], false);
+				creerFruit(newObjects[i][Api.OBJECT_ID],
+						newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y],
+						newObjects[i][Api.OBJECT_TYPE], false);
 				break;
 
 			case Api.EQUIPMENT_CUTTER:
@@ -218,7 +217,7 @@ public class Proxy {
 
 		// =========== objets supprimés
 		for (int i = 0; i < deletedObjects.length; ++i) {
-			int identifiant = deletedObjects[i];
+			Integer identifiant = deletedObjects[i];
 			fruits.remove(identifiant);
 			equipments.remove(identifiant);
 			buildings.remove(identifiant);
@@ -229,7 +228,7 @@ public class Proxy {
 		// ========= objets bougés
 		for (int i = 0; i < movedObjects.length; i++) {
 			// Les objets qui bougent sont les équipements et les fruits
-			int identifiant = movedObjects[i][Api.OBJECT_ID];
+			Integer identifiant = movedObjects[i][Api.OBJECT_ID];
 			Equipment equipementBouge = equipments.get(identifiant);
 			if (equipementBouge != null) {
 				getCell(movedObjects[i][Api.OBJECT_X],
@@ -252,7 +251,7 @@ public class Proxy {
 		// ========= fruits modifiés
 		for (int i = 0; i < modifiedFruits.length; i++) {
 			// Les objets qui bougent sont les équipements et les fruits
-			int identifiant = modifiedFruits[i][Api.OBJECT_ID];
+			Integer identifiant = modifiedFruits[i][Api.OBJECT_ID];
 
 			Fruit fruitModifie = fruits.get(identifiant);
 			if (fruitModifie != null) {
@@ -264,7 +263,7 @@ public class Proxy {
 		// ========= sugarDrops modifiés
 		for (int i = 0; i < modifiedSugarDrops.length; i++) {
 			// Les objets qui bougent sont les équipements et les fruits
-			int identifiant = modifiedSugarDrops[i][Api.OBJECT_ID];
+			Integer identifiant = modifiedSugarDrops[i][Api.OBJECT_ID];
 
 			SugarDrop drop = sugarDrops.get(identifiant);
 			if (drop != null) {
@@ -286,8 +285,10 @@ public class Proxy {
 			case Api.FRUIT_CHERRY:
 			case Api.FRUIT_KIWI:
 			case Api.FRUIT_NUT:
-				creerFruit(newObjects[i][Api.OBJECT_ID], newObjects[i][Api.OBJECT_X],
-						newObjects[i][Api.OBJECT_Y], newObjects[i][Api.OBJECT_TYPE], false);
+				creerFruit(newObjects[i][Api.OBJECT_ID],
+						newObjects[i][Api.OBJECT_X],
+						newObjects[i][Api.OBJECT_Y],
+						newObjects[i][Api.OBJECT_TYPE], false);
 				break;
 
 			case Api.EQUIPMENT_CUTTER:
@@ -328,7 +329,7 @@ public class Proxy {
 		// ========= sugarDrops modifiés
 		for (int i = 0; i < modifiedSugarDrops.length; i++) {
 			// Les objets qui bougent sont les équipements et les fruits
-			int identifiant = modifiedSugarDrops[i][Api.OBJECT_ID];
+			Integer identifiant = modifiedSugarDrops[i][Api.OBJECT_ID];
 
 			SugarDrop drop = sugarDrops.get(identifiant);
 			if (drop != null) {
@@ -340,7 +341,7 @@ public class Proxy {
 	public List<Fruit> getFruits(boolean ami) {
 		List<Fruit> fruitsRetour = new ArrayList<Fruit>();
 		for (Fruit fruit : fruits.values()) {
-			if (fruit.getIsAmi() == ami) {
+			if (fruit.isFriend() == ami) {
 				fruitsRetour.add(fruit);
 			}
 		}
@@ -385,8 +386,7 @@ public class Proxy {
 		return retour;
 	}
 
-	public Integer fructify(Integer desiredFruitType, Integer x,
-			Integer y) {
+	public Integer fructify(Integer desiredFruitType, Integer x, Integer y) {
 		Integer retour = Api.fructify(desiredFruitType, x, y);
 		if (retour > 0) {
 			creerFruit(retour, x, y, desiredFruitType, true);
@@ -407,14 +407,14 @@ public class Proxy {
 		Integer retour = Api.useEquipment(fruit.getId(), equipment.getId(),
 				target.getId());
 		if (retour == Api.HIT) {
-			// TODO: enlever hp target
+			target.setHp(Math.max(0, equipment.getAttack()
+					- target.getDefense()));
 			fruit.setPa(fruit.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
 		} else if (retour == Api.SPLATCHED) {
 			removeFruit(target);
 			fruit.setPa(fruit.getPa() - 1);
 		} else if (retour == Api.RELOADED) {
-			// TODO: ajouter munition de l'équipement
+			fruit.setHp(fruit.getHp() + 4);
 			fruit.setPa(fruit.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
@@ -458,11 +458,11 @@ public class Proxy {
 		Integer retour = Api.pickUpSugar(picker.getId(), sugarDrop.getId());
 		if (retour == Api.OK) {
 			int newSugarDropValue = Math.max(sugarDrop.getNbrElement() - 10, 0);
-			int newFruitValue = Math.min(picker.getMaxSucre(), picker
-					.getSucre()
+			int newFruitValue = Math.min(picker.getMaxSugar(), picker
+					.getSugar()
 					+ (sugarDrop.getNbrElement() - newSugarDropValue));
 			sugarDrop.setNbrElement(newSugarDropValue);
-			picker.setSucre(newFruitValue);
+			picker.setSugar(newFruitValue);
 			picker.setPa(picker.getPa() - 1);
 		}
 		return retour;
@@ -535,8 +535,8 @@ public class Proxy {
 	}
 
 	private void removeFruitFromMap(Fruit fruit) {
-		getCell(fruit.getX(), fruit.getY()).setFruit(null);	
-		
+		getCell(fruit.getX(), fruit.getY()).setFruit(null);
+
 	}
 
 	private void removeFruit(Fruit fruit) {
@@ -548,7 +548,7 @@ public class Proxy {
 			Integer type, Boolean isAmi) {
 		Fruit fruit = new Fruit(type);
 		fruit.setId(identifiant);
-		fruit.setIsAmi(isAmi);
+		fruit.setFriend(isAmi);
 		fruit.setX(x);
 		fruit.setY(y);
 		fruits.put(identifiant, fruit);
