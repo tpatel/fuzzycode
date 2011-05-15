@@ -555,6 +555,8 @@ public class Proxy {
 		fruit.setFriend(isAmi);
 		fruit.setX(x);
 		fruit.setY(y);
+		
+		this.getCell(x, y).setFruit(fruit);
 		fruits.put(identifiant, fruit);
 		getCell(x, y).setFruit(fruit);
 	}
