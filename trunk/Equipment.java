@@ -3,6 +3,7 @@ package fuzzycode;
 import game.Api;
 
 public class Equipment {
+	protected Integer attack;
 	protected Integer range;
 	protected Integer ammo;
 	protected Double weightBase;
@@ -11,8 +12,16 @@ public class Equipment {
 	protected Integer type;
 	protected Integer ammoMax;
 	
+	public Integer getAttack() {
+		return attack;
+	}
+
+	public void setAttack(Integer attack) {
+		this.attack = attack;
+	}
+	
 	public Integer getAmmoMax() {
-		return ammoMax;
+		return this.ammoMax == -1 ? Integer.MAX_VALUE : this.ammoMax;
 	}
 
 	public void setAmmoMax(Integer ammoMax) {
@@ -27,13 +36,15 @@ public class Equipment {
 		this.type = type;
 		
 		if(this.type == Api.EQUIPMENT_CUTTER) {
+			this.attack = 8;
 			this.range = 2;
-			this.ammoMax = Integer.MAX_VALUE;
+			this.ammoMax = -1;
 			this.weightBase = 15.0;
 			this.weightAmmo = 0.0;
 		}
 		
 		if(this.type == Api.EQUIPMENT_JUICE_NEEDLE) {
+			this.attack = 4;
 			this.range = 1;
 			this.ammoMax = 10;
 			this.weightBase = 2.0;
@@ -41,6 +52,7 @@ public class Equipment {
 		}
 		
 		if(this.type == Api.EQUIPMENT_LEMONER) {
+			this.attack = 4;
 			this.range = 6;
 			this.ammoMax = 25;
 			this.weightBase = 10.0;
@@ -48,6 +60,7 @@ public class Equipment {
 		}
 		
 		if(this.type == Api.EQUIPMENT_LIGHTER) {
+			this.attack = 2;
 			this.range = 5;
 			this.ammoMax = 100;
 			this.weightBase = 11.0;
@@ -55,13 +68,15 @@ public class Equipment {
 		}
 		
 		if(this.type == Api.EQUIPMENT_PEELER) {
+			this.attack = -1;
 			this.range = 2;
-			this.ammoMax = Integer.MAX_VALUE;
+			this.ammoMax = -1;
 			this.weightBase = 5.0;
 			this.weightAmmo = 0.0;
 		}
 		
 		if(this.type == Api.EQUIPMENT_RELOADER) {
+			this.attack = 100;
 			this.range = 1;
 			this.ammoMax = 1;
 			this.weightBase = 2.0;
@@ -69,6 +84,7 @@ public class Equipment {
 		}
 		
 		if(this.type == Api.EQUIPMENT_SALT_SNIPER) {
+			this.attack = 6;
 			this.range = 10;
 			this.ammoMax = 10;
 			this.weightBase = 20.0;
@@ -76,15 +92,17 @@ public class Equipment {
 		}
 		
 		if(this.type == Api.EQUIPMENT_TEA_SPOON) {
+			this.attack = 4;
 			this.range = 1;
-			this.ammoMax = Integer.MAX_VALUE;
+			this.ammoMax = -1;
 			this.weightBase = 5.0;
 			this.weightAmmo = 0.0;
 		}
 		
 		if(this.type == Api.EQUIPMENT_TOOTHPICK) {
+			this.attack = 6;
 			this.range = 1;
-			this.ammoMax = Integer.MAX_VALUE;
+			this.ammoMax = -1;
 			this.weightBase = 10.0;
 			this.weightAmmo = 0.0;
 		}
@@ -107,11 +125,11 @@ public class Equipment {
 	}
 	
 	public Integer getAmmo() {
-		return this.ammo;
+		return this.ammoMax == -1 ? Integer.MAX_VALUE : this.ammo;
 	}
 	
 	public void setAmmo(Integer ammo) {
-		this.ammo = ammo;
+		this.ammo = Math.min(ammo, this.ammoMax);
 	}
 	
 	public Double getWeight() {
