@@ -66,8 +66,7 @@ public abstract class Strategy {
 	private AdequacyResult cachedAdequacy;
 
 	// static final int INFINITY = Integer.MAX_VALUE;
-	static final int[][] neighbourPattern = { { -1, -1 }, { 0, -1 }, { 1, -1 },
-			{ -1, 0 }, { 1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 } };
+	static final int[][] neighbourPattern = { { -1, -1 }, { 0, -1 }, { 1, -1 },{ -1, 0 }, { 1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 } };
 	protected Proxy proxy;
 
 	@SuppressWarnings("unchecked")
@@ -91,7 +90,6 @@ public abstract class Strategy {
 	@SuppressWarnings("unchecked")
 	protected List<Node> findPath(int x1, int y1, int x2, int y2,
 			boolean building) { // System.out.println("isOcc "+proxy.getCell(0,0).isOccupied());
-		System.out.println("hello");
 		int w = proxy.getMapWidth();
 		int h = proxy.getMapHeight();
 		Node[][] aNodes = new Node[w][h];
@@ -105,7 +103,6 @@ public abstract class Strategy {
 		}
 		aNodes[x1][y1].d = 0;
 		Node end = null;
-		System.out.println("avant boucle : "+ nodes.size());
 		while (nodes.size() != 0) {
 			Collections.sort(nodes);
 			Node u = nodes.get(0);
@@ -151,6 +148,21 @@ public abstract class Strategy {
 			return nodes;
 		}
 	}
+	
+	public static Boolean bresenham(Proxy proxy, Integer x0, Integer y0, Integer x1, Integer y1) {
+		int dx=Math.abs(x1-x0), dy=Math.abs(y1-y0);
+		int sx = (x0<x1?1:-1), sy = (y0<y1?1:-1);
+		int err = dx-dy;
+		while (x0!=x1 || y0!=y1) {
+			if(proxy.getCell(x0, y0).isOccupied())
+				return true;
+			int e2 = 2*err;
+			if (e2>-dy) {err -= dy; x0 += sx;}
+			if (e2<dx) {err += dx; y0 += sy;}
+			}
+		return false;
+	}
+	
 
 	protected void updateDangerLevel() {
 		Proxy ProxyAPI = Proxy.getProxy();

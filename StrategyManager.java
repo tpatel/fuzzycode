@@ -15,25 +15,42 @@ public class StrategyManager implements FruitSaladAi {
 	public StrategyManager(){
 		// ajouter ici les différentes stratégies
 		pendingStrategies = new ArrayList<Strategy>();
-		pendingStrategies.add( new Recupere() );
+		//pendingStrategies.add( new Recupere() );
+		pendingStrategies.add( new Sparta() );
+		
+	}
+	
+	private Integer[][] getWrap(int[][] primitifs){
+		Integer[][] wrap;
+		if(primitifs.length > 0) {
+			wrap = new Integer[primitifs.length][primitifs[0].length];
+			for (int i = 0; i < primitifs.length; i++) {
+				for (int j = 0; j < primitifs[0].length; j++) {
+					wrap[i][j] = primitifs[i][j];
+				}
+			}
+		}
+		else wrap = new Integer[0][0];
+		
+		return wrap;
+	}
+	
+	private Integer[] getWrap(int[] primitifs){
+		Integer[] wrap;
+		if(primitifs.length > 0) {
+			wrap = new Integer[primitifs.length];
+			for (int i = 0; i < primitifs.length; i++) {
+					wrap[i] = primitifs[i];
+			}
+		}
+		else	wrap = new Integer[0];
+		
+		return wrap;
 	}
 
 	@Override
 	public void mapUpdate(int[][] arg0, int[][] arg1) {
-		Integer[][] leArg0 = new Integer[arg0.length][arg0[0].length];
-		for (int i = 0; i < arg0.length; i++) {
-			for (int j = 0; j < arg0[0].length; j++) {
-				leArg0[i][j] = arg0[i][j];
-			}
-		}
-		Integer[][] leArg1 = new Integer[arg1.length][arg1[0].length];
-		for (int i = 0; i < arg1.length; i++) {
-			for (int j = 0; j < arg1[0].length; j++) {
-				leArg1[i][j] = arg1[i][j];
-			}
-		}
-		
-		Proxy.getProxy().updateMap(leArg0, leArg1);
+		Proxy.getProxy().updateMap(getWrap(arg0), getWrap(arg1));
 	}
 
 	@Override
@@ -43,56 +60,7 @@ public class StrategyManager implements FruitSaladAi {
 			lf.get(i).setPa(2);
 		}
 		
-		Integer[][] leArg0;
-		if(arg0.length > 0) {
-			leArg0 = new Integer[arg0.length][arg0[0].length];
-			for (int i = 0; i < arg0.length; i++) {
-				for (int j = 0; j < arg0[0].length; j++) {
-					leArg0[i][j] = arg0[i][j];
-				}
-			}
-		}
-		else	leArg0 = new Integer[0][0];
-		
-		Integer[] leArg1 = new Integer[arg1.length];
-		for (int i = 0; i < arg1.length; i++) {
-			leArg1[i] = arg1[i];
-		}
-		
-		Integer[][] leArg2;
-		if(arg2.length > 0) {
-			leArg2 = new Integer[arg2.length][arg2[0].length];
-			for (int i = 0; i < arg2.length; i++) {
-				for (int j = 0; j < arg2[0].length; j++) {
-					leArg2[i][j] = arg2[i][j];
-				}
-			}
-		}
-		else	leArg2 = new Integer[0][0];
-		
-		Integer[][] leArg3;
-		if(arg3.length > 0) {
-			leArg3 = new Integer[arg3.length][arg3[0].length];
-			for (int i = 0; i < arg3.length; i++) {
-				for (int j = 0; j < arg3[0].length; j++) {
-					leArg3[i][j] = arg3[i][j];
-				}
-			}
-		}
-		else	leArg3 = new Integer[0][0];
-		
-		Integer[][] leArg4;
-		if(arg4.length > 0) {
-			leArg4 = new Integer[arg4.length][arg4[0].length];
-			for (int i = 0; i < arg4.length; i++) {
-				for (int j = 0; j < arg4[0].length; j++) {
-					leArg4[i][j] = arg4[i][j];
-				}
-			}
-		}
-		else	leArg4 = new Integer[0][0];
-		
-		Proxy.getProxy().updateMap(leArg0, leArg1, leArg2, leArg3, leArg4);
+		Proxy.getProxy().updateMap(getWrap(arg0), getWrap(arg1), getWrap(arg2), getWrap(arg3), getWrap(arg4));
 		
 		//Strategy.AdequacyResult bestAdqResult;
 		List<Fruit> availableFruits = Proxy.getProxy().getFruits(true);
@@ -125,26 +93,8 @@ public class StrategyManager implements FruitSaladAi {
 	
 	@Override
 	public void initGame(int[][] arg0, int[][] arg1, int[][] arg2,	int limitCherry, int limitKiwi, int limitNut, int vitaminGoal, int maxNbTurns) {
-		Integer[][] architecture = new Integer[arg0.length][arg0[0].length];
-		for (int i = 0; i < architecture.length; i++) {
-			for (int j = 0; j < architecture[0].length; j++) {
-				architecture[i][j] = arg0[i][j];
-			}
-		}
-		Integer[][] fruits = new Integer[arg1.length][arg1[0].length];
-		for (int i = 0; i < arg1.length; i++) {
-			for (int j = 0; j < arg1[0].length; j++) {
-				fruits[i][j] = arg1[i][j];
-			}
-		}
-		Integer[][] buildings = new Integer[arg2.length][arg2[0].length];
-		for (int i = 0; i < arg2.length; i++) {
-			for (int j = 0; j < arg2[0].length; j++) {
-				buildings[i][j] = arg2[i][j];
-			}
-		}
 		// creation de la map
-		Proxy.getProxy().initMap(architecture, fruits, buildings, limitCherry, limitKiwi, limitNut, vitaminGoal, maxNbTurns);
+		Proxy.getProxy().initMap(getWrap(arg0), getWrap(arg1), getWrap(arg2), limitCherry, limitKiwi, limitNut, vitaminGoal, maxNbTurns);
 	}
 
 
