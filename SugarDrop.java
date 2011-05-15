@@ -15,5 +15,11 @@ public class SugarDrop {
 	public Integer getId() {
 		return this.id;
 	}
+
+	public SugarDrop() {
+		this.nbrElement = 0;
+	}
+	
+	
 }
 

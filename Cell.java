@@ -66,7 +66,7 @@ public class Cell {
 	}
 	
 	public Boolean isOccupied() {
-		return this.isWall() || this.hasEquipments() || this.hasBuilding() || this.hasChest() || this.hasFruit();
+		return this.isWall() || this.hasBuilding() || this.hasChest() || this.hasFruit();
 	}
 	
 	public Boolean isWall() {
