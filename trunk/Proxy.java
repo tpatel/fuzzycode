@@ -458,15 +458,16 @@ public class Proxy {
 		return retour;
 	}
 
-	public Integer pickUpSugar(Fruit picker, SugarDrop sugarDrop) {
+	public Integer pickUpSugar(Fruit picker, SugarDrop sugarDrop, Integer positionXSugar, Integer positionYSugar) {
 		Integer retour = Api.pickUpSugar(picker.getId(), sugarDrop.getId());
 		if (retour == Api.OK) {
-			int newSugarDropValue = Math.max(sugarDrop.getNbrElement() - 10, 0);
-			int newFruitValue = Math.min(picker.getMaxSugar(), picker
-					.getSugar()
-					+ (sugarDrop.getNbrElement() - newSugarDropValue));
-			sugarDrop.setNbrElement(newSugarDropValue);
-			picker.setSugar(newFruitValue);
+			if (retour == Api.SOME_SUGAR_TAKEN) {
+				sugarDrop.setNbrElement(sugarDrop.getNbrElement() - 10);
+			} else if (retour == Api.ALL_SUGAR_TAKEN) {
+				getCell(positionXSugar, positionYSugar).setSugarDrop(null);
+				sugarDrops.remove(sugarDrop.getId());
+			}
+			picker.setSugar(picker.getSugar() + Math.min(10, sugarDrop.getNbrElement()));
 			picker.setPa(picker.getPa() - 1);
 		}
 		return retour;
@@ -475,15 +476,14 @@ public class Proxy {
 	public Integer dropSugar(Fruit dropper, Integer quantity, Integer x,
 			Integer y) {
 		Integer retour = Api.dropSugar(dropper.getId(), quantity, x, y);
-		if (retour == Api.SOME_SUGAR_TAKEN) {
-			// TODO: action
-			dropper.setPa(dropper.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
-		} else if (retour == Api.ALL_SUGAR_TAKEN) {
-			// TODO: action
-			dropper.setPa(dropper.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
+		if (retour == Api.OK){
+			int realQuantityDropped = Math.min(quantity, dropper.getSugar());
+			dropper.setSugar(dropper.getSugar() - realQuantityDropped);
+			SugarDrop sDrop = new SugarDrop();
+			sDrop.setNbrElement(realQuantityDropped);
+			getCell(x, y).setSugarDrop(sDrop);
 		}
+		dropper.setPa(dropper.getPa() - 1);
 		return retour;
 	}
 
