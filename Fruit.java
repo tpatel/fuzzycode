@@ -19,6 +19,7 @@ public class Fruit {
 	protected Integer pa; // Points d'actions
 	protected Integer fruitType;
 	protected Integer curVitamins;
+	protected Integer maxCurVitamins;
 	protected Integer sugar;
 	protected Integer maxWeight;
 	protected Integer maxSugar;
@@ -59,6 +60,7 @@ public class Fruit {
 			this.range = 2;
 			this.speedMax = 6;
 			this.maxWeight = 45;
+			this.maxCurVitamins = 10;
 		} else {
 			if (type == Api.FRUIT_KIWI) {
 				this.attack = 2;
@@ -70,6 +72,7 @@ public class Fruit {
 				this.range = 5;
 				this.speedMax = 4;
 				this.maxWeight = 55;
+				this.maxCurVitamins = 15;
 			} else {
 				if (type == Api.FRUIT_NUT) {
 					this.attack = 3;
@@ -81,6 +84,7 @@ public class Fruit {
 					this.range = 1;
 					this.speedMax = 2;
 					this.maxWeight = 65;
+					this.maxCurVitamins = 20;
 				}
 			}
 		}
@@ -99,7 +103,7 @@ public class Fruit {
 	}
 
 	public void setCurVitamins(Integer curVitamins) {
-		this.curVitamins = curVitamins;
+		this.curVitamins = Math.min(curVitamins, this.maxCurVitamins);
 	}
 
 	public Integer getFruitType() {
@@ -269,7 +273,7 @@ public class Fruit {
 		return true;
 	}
 
-	public void rmEquipment(Equipment equip) {
+	public void removeEquipment(Equipment equip) {
 		this.equipments.remove(equip);
 	}
 }
