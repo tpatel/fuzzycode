@@ -359,7 +359,6 @@ public class Proxy {
 	public Integer attack(Fruit shooter, Fruit target) {
 		Integer retour = Api.attack(shooter.getId(), target.getId());
 		if (retour == Api.HIT) {
-			// TODO enlever hp target
 			target
 					.setHp(Math.max(0, shooter.getAttack()
 							- target.getDefense()));
@@ -537,7 +536,7 @@ public class Proxy {
 
 	private void removeFruit(Fruit fruit) {
 		getCell(fruit.getX(), fruit.getY()).setFruit(null);	
-		fruits.put(fruit.getId(), null);
+		fruits.remove(fruit.getId());
 	}
 
 	private void creerFruit(Integer identifiant, Integer x, Integer y,
