@@ -5,7 +5,7 @@ public class SugarDrop {
 	private Integer id;
 	
 	public void setNbrElement(Integer nbrElement) {
-		this.nbrElement = nbrElement;
+		this.nbrElement = Math.max(0, nbrElement);
 	}
 
 	public Integer getNbrElement() {

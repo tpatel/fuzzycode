@@ -54,7 +54,7 @@ public class Equipment {
 
 	public void setAmmo(Integer ammo) {
 		if (ammoMax > 0)
-			this.ammo = Math.min(ammo, this.ammoMax);
+			this.ammo = Math.max(0, Math.min(ammo, this.ammoMax));
 	}
 
 	public Double getWeight() {
