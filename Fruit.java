@@ -38,7 +38,7 @@ public class Fruit {
 	}
 
 	public void setSugar(Integer sugar) {
-		this.sugar = sugar;
+		this.sugar = Math.max(0, Math.min(sugar, this.maxSugar));
 	}
 
 	public Boolean isFriend() {
@@ -103,7 +103,7 @@ public class Fruit {
 	}
 
 	public void setCurVitamins(Integer curVitamins) {
-		this.curVitamins = Math.min(curVitamins, this.maxCurVitamins);
+		this.curVitamins = Math.max(0, Math.min(curVitamins, this.maxCurVitamins));
 	}
 
 	public Integer getFruitType() {
@@ -167,7 +167,7 @@ public class Fruit {
 	}
 
 	public void setDefense(Integer defense) {
-		this.defense = Math.min(defense, this.maxDefense);
+		this.defense = Math.max(0, Math.min(defense, this.maxDefense));
 	}
 
 	public Integer getSpeed() {
