@@ -9,10 +9,26 @@ import java.util.List;
 public class Recupere extends Strategy {
 	private List<Fruit> availableFruits = new ArrayList<Fruit>();
 
+	public String name() { return "Recupere"; }
+
+	public void eachFrame(){ availableFruits = new ArrayList<Fruit>(); }
+	
 	@Override
 	public AdequacyResult computeAdequacy(List<Fruit> availableFruits) {
-		this.availableFruits.addAll(availableFruits);
-		return new AdequacyResult(1.0, availableFruits);
+		if( this.availableFruits.size() > Proxy.getProxy().getFruits(true).size() / 2 ){
+			int debug1 = Proxy.getProxy().getFruits(true).size() / 2;
+			int debug2 = this.availableFruits.size();
+			System.out.println("dygvchcd >>> <<<< >>> <<<< >>< --------" );
+			System.out.println(debug1);
+			System.out.println(debug2);
+			System.out.printf("dygvchcd >>> <<<< >>> <<<< >>< --------" );
+			return new AdequacyResult(0.4, availableFruits ); 
+		}else{
+			if(!this.availableFruits.contains(availableFruits.get(0)))
+				this.availableFruits.add(availableFruits.get(0));
+			System.out.printf("--------------------- %n \n", this.availableFruits.size() );
+			return new AdequacyResult(1.0, this.availableFruits);
+		}
 	}
 
 	@Override

@@ -20,7 +20,11 @@ public class Proxy {
 	private Integer limitNut = 0;
 	private Integer vitaminGoal = 0;
 	private Integer maxNbTurns = 0;
-	
+	private Integer currentTurn = 0;
+	public Integer getCurrentTurn() {
+		return currentTurn;
+	}
+
 	private Double totalSugar = 0.0;
 	private Integer totalVitamins = 0;
 
@@ -181,6 +185,7 @@ public class Proxy {
 		Equipment equip = null;
 		Chest chest = null;
 		SugarDrop sDrop = null;
+		currentTurn++;
 		
 		// ==================== Nouveaux objets
 		for (int i = 0; i < newObjects.length; ++i) {

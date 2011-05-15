@@ -6,9 +6,11 @@ public class DummyStrategy extends Strategy {
 
 	@Override
 	public AdequacyResult adequacy(List<Fruit> fruits) {
-		return new AdequacyResult(1.0, fruits);
+		return new AdequacyResult(0.3, fruits);
 	}
 
+	public String name() { return "DummyStrategy"; }
+	
 	@Override
 	public void run() {
 		/*for(Integer j = Proxy.getProxy().getMapHeight() - 1 ; j >= 0 ; j--) {
