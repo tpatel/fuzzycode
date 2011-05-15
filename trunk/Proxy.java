@@ -134,6 +134,7 @@ public class Proxy {
 				case Api.BUILDING_SUGAR_BOWL:
 				case Api.BUILDING_SUGAR_TREE:
 					building = new Building(architecture[i][j]);
+					building.setFriend(false);
 					getCell(i, j).setBuilding(building);
 					break;
 
@@ -149,7 +150,8 @@ public class Proxy {
 		}
 
 		for (int i = 0; i < buildings.length; ++i) {
-			building = new Building(buildings[i][Api.OBJECT_ID]);
+			building = new Building(buildings[i][Api.OBJECT_TYPE]);
+			building.setFriend(true);
 			this.buildings.put(buildings[i][Api.OBJECT_ID], building);
 			getCell(buildings[i][Api.OBJECT_X], buildings[i][Api.OBJECT_Y])
 					.setBuilding(building);
@@ -363,10 +365,12 @@ public class Proxy {
 
 	public Integer move(Fruit fruit, Integer x, Integer y) {
 		Integer retour = Api.move(fruit.getId(), x, y);
+		System.out.println("Déplacement du fruit vers " + x +"/" + y);
 		if (retour == Api.OK) {
 			moveFruit(fruit, fruit.getX(), fruit.getY(), x, y);
 			fruit.setPa(fruit.getPa() - 1);
 		}
+		else System.out.println(Api.decode(retour));
 		return retour;
 	}
 
@@ -513,12 +517,14 @@ public class Proxy {
 	public Integer stockSugar(Fruit stocker) {
 		Integer retour = Api.stockSugar(stocker.getId());
 		if (retour == Api.OK) {
+			System.out.println("Stockage du sucre!");
 			this.totalSugar += stocker.getSugar();
 			stocker.setSugar(0);
 			this.totalVitamins += stocker.getCurVitamins();
 			stocker.setCurVitamins(0);
 			stocker.setPa(stocker.getPa() - 1);
 		}
+		else System.out.println(Api.decode(retour));
 		return retour;
 	}
 

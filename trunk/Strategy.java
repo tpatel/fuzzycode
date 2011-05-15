@@ -110,7 +110,7 @@ public abstract class Strategy {
 			Collections.sort(nodes);
 			Node u = nodes.get(0);
 
-			System.out.println("currentNode: " + u.x + " " + u.y + "  " + u.d);
+			//System.out.println("currentNode: " + u.x + " " + u.y + "  " + u.d);
 
 			if (u.d == Node.INFINITY)
 				break;
