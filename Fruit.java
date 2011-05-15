@@ -24,8 +24,13 @@ public class Fruit {
 	protected Integer sugar;
 	protected Integer maxWeight;
 	protected Integer maxSugar;
+
 	protected Boolean friend;
 
+	public Integer getMaxCurVitamins() {
+		return maxCurVitamins;
+	}
+	
 	public Integer getMaxSugar() {
 		return maxSugar;
 	}

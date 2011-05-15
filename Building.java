@@ -1,5 +1,9 @@
 package fuzzycode;
 
+import java.awt.Point;
+
+import game.Api;
+
 public class Building {
 
 	private Integer type;
@@ -24,6 +28,6 @@ public class Building {
 	public void setFriend(Boolean isAmi) {
 		this.friend = isAmi;
 	}
-
+	
 }
 

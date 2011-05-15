@@ -2,6 +2,7 @@ package fuzzycode;
 
 import game.Api;
 
+import java.awt.Point;
 import java.util.*;
 
 public class Proxy {
@@ -587,5 +588,29 @@ public class Proxy {
 		fruits.put(identifiant, fruit);
 		getCell(x, y).setFruit(fruit);
 	}
+	
+	public Point getBuildingFriend(Integer typeBuilding) {
+		for (int i = 0; i < Proxy.getProxy().getMapWidth(); i++) {
+			for (int j = 0; j < Proxy.getProxy().getMapHeight(); j++) {
+				Building b = Proxy.getProxy().getCell(i, j).getBuilding();
+				if (b != null && b.getType() == typeBuilding && b.isFriend()) {
+					return new Point(i, j);
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Point getBuildingNeutral(Integer typeBuilding) {
+		for (int i = 0; i < Proxy.getProxy().getMapWidth(); i++) {
+			for (int j = 0; j < Proxy.getProxy().getMapHeight(); j++) {
+				Building b = Proxy.getProxy().getCell(i, j).getBuilding();
+				if (b != null && b.getType() == typeBuilding) {
+					return new Point(i, j);
+				}
+			}
+		}
+		return null;
+	} 
 
 }
