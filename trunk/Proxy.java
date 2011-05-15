@@ -414,13 +414,14 @@ public class Proxy {
 					- target.getDefense()));
 			}
 			fruit.setPa(fruit.getPa() - 1);
-		} else if (retour == Api.SPLATCHED) {
-			removeFruit(target);
-			fruit.setPa(fruit.getPa() - 1);
 		} else if (retour == Api.RELOADED && equipment.getType() == Api.EQUIPMENT_JUICE_NEEDLE) {
 			fruit.setHp(fruit.getHp() + 4);
 			fruit.setPa(fruit.getPa() - 1);
-		}
+		} else if (retour > 0) {
+			removeFruit(target);
+			fruit.setCurVitamins(fruit.getCurVitamins() + retour);
+			fruit.setPa(fruit.getPa() - 1);
+		} 
 		return retour;
 	}
 
@@ -435,12 +436,12 @@ public class Proxy {
 		return retour;
 	}
 
-	public Integer pickUpEquipment(Fruit picker, Equipment equipment) {
+	public Integer pickUpEquipment(Fruit picker, Equipment equipment, Integer positionXEquipment, Integer positionYEquipment) {
 		Integer retour = Api.pickUpEquipment(picker.getId(), equipment.getId());
 		if (retour == Api.OK) {
-			// TODO: action
+			picker.addEquipment(equipment);
+			getCell(positionXEquipment, positionYEquipment).removeEquipment(equipment);
 			picker.setPa(picker.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -450,9 +451,9 @@ public class Proxy {
 		Integer retour = Api.dropEquipment(dropper.getId(), equipment.getId(),
 				x, y);
 		if (retour == Api.OK) {
-			// TODO: action
+			dropper.removeEquipment(equipment);
+			getCell(x, y).addEquipment(equipment);
 			dropper.setPa(dropper.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -555,6 +556,7 @@ public class Proxy {
 		fruit.setX(x);
 		fruit.setY(y);
 		fruits.put(identifiant, fruit);
+		getCell(x, y).setFruit(fruit);
 	}
 
 }

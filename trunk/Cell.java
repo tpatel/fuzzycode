@@ -114,7 +114,6 @@ public class Cell {
 	}
 	
 	public Boolean checkIntegrity(){
-		// TODO
 		return true;
 	}
 
