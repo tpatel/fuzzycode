@@ -18,7 +18,6 @@ public class StrategyManager implements FruitSaladAi {
 		pendingStrategies.add( new Recupere() );
 		pendingStrategies.add( new Sparta() );
 		pendingStrategies.add( new HomeSweetHome() );
-		
 	}
 	
 	private Integer[][] getWrap(int[][] primitifs){
@@ -109,6 +108,9 @@ public class StrategyManager implements FruitSaladAi {
 		
 		//pendingStrategies.get(0).computeAdequacy(availableFruits);
 		//pendingStrategies.get(0).run();
+		
+		pendingStrategies.get(1).computeAdequacy(availableFruits);
+		pendingStrategies.get(1).run();
 	}
 
 	@Override

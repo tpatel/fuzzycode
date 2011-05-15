@@ -53,7 +53,8 @@ public class Recupere extends Strategy {
 					dest = Proxy.getProxy().getBuildingFriend(typeBuilding);
 				}
 				
-				List<Node> list = findPath(f.getX(), f.getY(), dest.x, dest.y, true);
+				//List<Node> list = findPath(f.getX(), f.getY(), dest.x, dest.y, true);
+				List<Point> list = findPath(f.getX(), f.getY(), dest.x, dest.y);
 				if (list == null) {
 					// On ne fait rien
 					f.setPa(f.getPa() - 1);
@@ -65,10 +66,15 @@ public class Recupere extends Strategy {
 						else 
 							if (Proxy.getProxy().stockSugar(f) != Api.OK) f.setPa(f.getPa() - 1);
 					} else {
-						Integer positionX = list.get(Math.min(list.size(), f.getSpeed()) - 1).x;
-						Integer positionY = list.get(Math.min(list.size(), f.getSpeed()) - 1).y;
-						if (Proxy.getProxy().move(f, positionX, positionY) != Api.OK)
-							f.setPa(f.getPa() - 1);
+						Integer r = 0, i = 1;
+						do {
+							Integer positionX = list.get(Math.max(0, Math.min(list.size(), f.getSpeed()) - i)).x;
+							Integer positionY = list.get(Math.max(0, Math.min(list.size(), f.getSpeed()) - i)).y;
+							r = Proxy.getProxy().move(f, positionX, positionY);
+							System.out.println("" + positionX + " " + positionY);
+							i++;
+						} while(r == Api.TOO_FAR && i < 42);
+						if(r != Api.OK)	f.setPa(f.getPa() - 1);
 					}
 
 				}

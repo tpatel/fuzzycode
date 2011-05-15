@@ -361,9 +361,9 @@ public class Proxy {
 
 	public List<Fruit> getFruits(boolean ami) {
 		List<Fruit> fruitsRetour = new ArrayList<Fruit>();
-		for (Fruit fruit : fruits.values()) {
-			if (fruit.isFriend() == ami) {
-				fruitsRetour.add(fruit);
+		for (Integer identifier : fruits.keySet()) {
+			if (fruits.get(identifier).isFriend() == ami) {
+				fruitsRetour.add(fruits.get(identifier));
 			}
 		}
 		return fruitsRetour;
@@ -381,14 +381,15 @@ public class Proxy {
 	}
 
 	public Integer attack(Fruit shooter, Fruit target) {
-		Integer retour = Api.attack(shooter.getId(), target.getId());
+		Integer retour = Api.attack(shooter.getId().intValue(), target.getId().intValue());
 		if (retour == Api.HIT) {
-			target
-					.setHp(Math.max(0, shooter.getAttack()
+			target.setHp(Math.max(0, shooter.getAttack()
 							- target.getDefense()));
 			shooter.setPa(shooter.getPa() - 1);
-		} else if (retour == Api.SPLATCHED) {
+		} else if (retour >= 0) {
+			target.setHp(0);
 			removeFruit(target);
+			shooter.setCurVitamins(shooter.getCurVitamins() + retour);
 			shooter.setPa(shooter.getPa() - 1);
 		}
 		return retour;
@@ -440,7 +441,8 @@ public class Proxy {
 		} else if (retour == Api.RELOADED && equipment.getType() == Api.EQUIPMENT_JUICE_NEEDLE) {
 			fruit.setHp(fruit.getHp() + 4);
 			fruit.setPa(fruit.getPa() - 1);
-		} else if (retour > 0) {
+		} else if (retour >= 0) {
+			target.setHp(0);
 			removeFruit(target);
 			fruit.setCurVitamins(fruit.getCurVitamins() + retour);
 			fruit.setPa(fruit.getPa() - 1);
@@ -577,6 +579,7 @@ public class Proxy {
 
 	private void removeFruit(Fruit fruit) {
 		removeFruitFromMap(fruit);
+		fruits.put(fruit.getId(), null);
 		fruits.remove(fruit.getId());
 	}
 
