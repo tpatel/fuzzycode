@@ -527,7 +527,6 @@ public class Proxy {
 		if (retour == Api.OK) {
 			int missingAmmo = equipment.getAmmoMax() - equipment.getAmmo();
 			this.totalSugar += (equipment.getSellValue() - missingAmmo * equipment.getAmmoValue());
-			//TODO : Munitions ?
 			seller.removeEquipment(equipment);
 			seller.setPa(seller.getPa() - 1);
 		}
@@ -536,13 +535,13 @@ public class Proxy {
 
 	public Integer buyEquipment(Fruit buyer, Integer equipmentType) {
 		Integer retour = Api.buyEquipment(buyer.getId(), equipmentType);
-		if (retour == Api.OK) {
-			// TODO: action
+		if (retour > 0) {			
 			Equipment equipment = new Equipment(equipmentType);
+			equipment.setId(retour);
 			this.totalSugar -= equipment.getBuyValue();
 			buyer.addEquipment(equipment);
+			equipments.put(equipment.getId(), equipment);
 			buyer.setPa(buyer.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
