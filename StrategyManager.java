@@ -98,7 +98,7 @@ public class StrategyManager implements FruitSaladAi {
 		List<Fruit> availableFruits = Proxy.getProxy().getFruits(true);
 		Strategy bestStrategy;
 		// choix des strategies
-		do{
+		/*do{
 			bestAdqResult = null;
 			bestStrategy = null;
 			for(Strategy s : pendingStrategies ){
@@ -110,11 +110,14 @@ public class StrategyManager implements FruitSaladAi {
 					}
 				}
 			}
+			
 			if(bestStrategy != null) {
 				bestStrategy.run(); 
 				availableFruits.removeAll(bestAdqResult.neededFruits);
 			}
-		} while(bestStrategy != null);
+		} while(bestStrategy != null);*/
+		pendingStrategies.get(0).computeAdequacy(availableFruits);
+		pendingStrategies.get(0).run();
 	}
 
 	@Override
