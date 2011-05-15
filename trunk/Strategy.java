@@ -9,8 +9,18 @@ public abstract class Strategy {
 	public Strategy(){
 		this.proxy = Proxy.getProxy();
 		this.oncePerFrame = true;
-	    this.cachedAdequacy = 0.0;
+	    this.cachedAdequacy = new AdequacyResult( 0.0, new ArrayList<Fruit>() );
 	}
+	
+	public class AdequacyResult{
+		public AdequacyResult(Double value, List<Fruit> neededFruits){
+			this.value = value;
+			this.neededFruits = neededFruits;
+		}
+		public Double value;
+		public List<Fruit> neededFruits;
+	}
+	
 	/**
 	 * Appelé a l'activation de la strategie.
 	 */
@@ -26,7 +36,7 @@ public abstract class Strategy {
     /**
      * Pertinence de la strategie.
      */
-    public abstract Double computeAdequacy();
+    public abstract AdequacyResult computeAdequacy(List<Fruit> availableFruits);
     
     /**
      * Les methodes qui suivent servent juste a eviter que la pertincence soit calculée plus d'une fois par tour.
@@ -38,16 +48,16 @@ public abstract class Strategy {
     /**
      * renvoie la pertinence, c'est cette méthode qu'il faut appeler et non computeAdequacy.
      */
-    public Double adequacy(){
+    public AdequacyResult adequacy(List<Fruit> availableFruits){
     	if(oncePerFrame) {
-    		cachedAdequacy = computeAdequacy();
+    		cachedAdequacy = computeAdequacy(availableFruits);
     		oncePerFrame = false;
     	}
     	return cachedAdequacy;
     }
     
     private Boolean oncePerFrame;
-    private Double cachedAdequacy;
+    private AdequacyResult cachedAdequacy;
     
     //static final int INFINITY = Integer.MAX_VALUE;
     static final int[][] neighbourPattern = {{-1,-1},{0,-1},{1,-1},{-1,0},{1,0},{-1,1},{0,1},{1,1}};
