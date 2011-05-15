@@ -145,6 +145,7 @@ public class StrategyManager implements FruitSaladAi {
 		}
 		// creation de la map
 		Proxy.getProxy().initMap(architecture, fruits, buildings, limitCherry, limitKiwi, limitNut, vitaminGoal, maxNbTurns);
+		runningStrategy.start();
 	}
 
 
