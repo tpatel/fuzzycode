@@ -64,33 +64,39 @@ public abstract class Strategy {
     protected Proxy proxy;
     protected class Node implements Comparable {
     	static final int INFINITY = Integer.MAX_VALUE;
-        int x,y,d=INFINITY; boolean visited = false; Node prev = null;
+        int x,y,d=INFINITY; Node prev = null;
+        boolean visited = false, isPenetrable;
         
         public Node(int _x, int _y){ x=_x; y=_y; }
         
     	@Override
     	public int compareTo(Object arg0) {
-    		return ((Node)arg0).d-d;
+    		return d-((Node)arg0).d;
     	}
     }
     
-    protected List<Node> findPath(int x1,int y1,int x2,int y2) {
+    protected List<Node> findPath(int x1,int y1,int x2,int y2) {	//System.out.println("isOcc "+proxy.getCell(0,0).isOccupied());
     	int w = proxy.getMapWidth();
     	int h = proxy.getMapHeight();
     	Node[][] aNodes = new Node[w][h]; List<Node> nodes = new ArrayList<Node>();
-    	for (int i=0; i<w; i++) for (int j=0; j<h; j++) { aNodes[i][j] = new Node(i,j); nodes.add(aNodes[i][j]); }
+    	for (int i=0; i<w; i++) for (int j=0; j<h; j++)
+    		{ aNodes[i][j] = new Node(i,j); nodes.add(aNodes[i][j]); aNodes[i][j].isPenetrable = !proxy.getCell(i,j).isOccupied();}
     	aNodes[x1][y1].d = 0;
     	Node end=null;
     	while (nodes.size()!=0) {
         	Collections.sort(nodes);
         	Node u = nodes.get(0);
+        	
+    		//System.out.println("currentNode: "+u.x+" "+u.y+"  "+u.d);
+    		
         	if (u.d == Node.INFINITY) break;
-        	if (u.x==x2 && u.y==y2) {end = u; break;};
+        	if (u.x==x2 && u.y==y2) {end = u; break;}
         	nodes.remove(0);
     		int alt = u.d+1;
         	for (int i = 0; i<neighbourPattern.length; i++) {
-        		int x = neighbourPattern[i][0], y = neighbourPattern[i][1];
-        		if (x>=0 && y>=0 && x<w && y<h) {
+        		int x = u.x+neighbourPattern[i][0], y = u.y+neighbourPattern[i][1];
+        		//System.out.println("isPen "+x+" "+y+"  "+aNodes[x][y].isPenetrable);
+        		if (x>=0 && y>=0 && x<w && y<h && aNodes[x][y].isPenetrable) {
         			Node n = aNodes[x][y];
         			if (alt<n.d) { n.d = alt; n.prev = u; }
         		}
@@ -100,7 +106,8 @@ public abstract class Strategy {
     	else {
     		nodes = new ArrayList<Node>();
     		while(end.prev!=null){
-    			nodes.add(end);
+    			//nodes.add(end);
+    			nodes.add(0, end);
     			end = end.prev;
     		}
     		return nodes;
