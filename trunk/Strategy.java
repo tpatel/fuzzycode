@@ -6,6 +6,11 @@ import java.util.*;
  * Interface des stagtegies.
  */
 public abstract class Strategy {
+	public Strategy(){
+		this.proxy = Proxy.getProxy();
+		this.oncePerFrame = true;
+	    this.cachedAdequacy = 0.0;
+	}
 	/**
 	 * Appelé a l'activation de la strategie.
 	 */
