@@ -90,7 +90,6 @@ public class Equipment {
 
 	public Equipment(Integer type) {
 
-		this.ammo = ammoMax;
 		this.type = type;
 		
 		if (this.type == Api.EQUIPMENT_CUTTER) {
@@ -192,6 +191,7 @@ public class Equipment {
 			this.buyValue = 20;
 			this.sellValue = 12;
 		}
+		this.ammo = ammoMax;
 
 	}
 
