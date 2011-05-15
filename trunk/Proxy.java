@@ -19,6 +19,9 @@ public class Proxy {
 	private Integer limitNut = 0;
 	private Integer vitaminGoal = 0;
 	private Integer maxNbTurns = 0;
+	
+	private Integer totalSugar = 0;
+	private Integer totalVitamins = 0;
 
 	private static Proxy instance = null;
 
@@ -89,6 +92,16 @@ public class Proxy {
 	}
 
 	
+	public Integer getTotalSugar() {
+		return totalSugar;
+	}
+
+
+	public Integer getTotalVitamins() {
+		return totalVitamins;
+	}
+
+
 	public Proxy() {
 		this.fruits = new HashMap<Integer, Fruit>();
 		this.equipments = new HashMap<Integer, Equipment>();
@@ -487,12 +500,12 @@ public class Proxy {
 		return retour;
 	}
 
-	public Integer openChest(Fruit oppener, Chest chest) {
+	public Integer openChest(Fruit oppener, Chest chest, Integer positionX, Integer positionY) {
 		Integer retour = Api.openChest(oppener.getId(), chest.getId());
 		if (retour == Api.OK) {
-			// TODO: action
+			getCell(positionX, positionY).setChest(null);
+			chests.remove(chest.getId());
 			oppener.setPa(oppener.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -500,9 +513,11 @@ public class Proxy {
 	public Integer stockSugar(Fruit stocker) {
 		Integer retour = Api.stockSugar(stocker.getId());
 		if (retour == Api.OK) {
-			// TODO: action
+			this.totalSugar += stocker.getSugar();
+			stocker.setSugar(0);
+			this.totalVitamins += stocker.getCurVitamins();
+			stocker.setCurVitamins(0);
 			stocker.setPa(stocker.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
@@ -510,23 +525,29 @@ public class Proxy {
 	public Integer sellEquipment(Fruit seller, Equipment equipment) {
 		Integer retour = Api.sellEquipment(seller.getId(), equipment.getId());
 		if (retour == Api.OK) {
-			// TODO: action
+			this.totalSugar += equipment.getSellValue();
+			//TODO : Munitions ?
+			seller.removeEquipment(equipment);
 			seller.setPa(seller.getPa() - 1);
-			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
 
-	public Integer buyEquipment(Fruit buyer, Equipment equipment) {
-		Integer retour = Api.buyEquipment(buyer.getId(), equipment.getType());
+	public Integer buyEquipment(Fruit buyer, Integer equipmentType) {
+		Integer retour = Api.buyEquipment(buyer.getId(), equipmentType);
 		if (retour == Api.OK) {
 			// TODO: action
+			Equipment equipment = new Equipment(equipmentType);
+			this.totalSugar -= equipment.getBuyValue();
+			buyer.addEquipment(equipment);
 			buyer.setPa(buyer.getPa() - 1);
 			throw new RuntimeException("Pas encore géré !");
 		}
 		return retour;
 	}
 
+	
+	// ========== Private functions 
 	private void moveFruit(Fruit fruit, Integer oldX, Integer oldY,
 			Integer newX, Integer newY) {
 		if (oldX > 0 && oldY > 0) {
