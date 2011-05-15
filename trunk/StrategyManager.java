@@ -5,8 +5,6 @@ import game.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import fuzzycode.Strategy;
-import fuzzycode.Strategy.AdequacyResult;
 
 public class StrategyManager implements FruitSaladAi {
 
@@ -17,7 +15,7 @@ public class StrategyManager implements FruitSaladAi {
 	public StrategyManager(){
 		// ajouter ici les différentes stratégies
 		pendingStrategies = new ArrayList<Strategy>();
-		pendingStrategies.add( new DummyStrategy() );
+		pendingStrategies.add( new Recupere() );
 	}
 
 	@Override
@@ -44,7 +42,6 @@ public class StrategyManager implements FruitSaladAi {
 		for (int i = 0; i < lf.size(); i++) {
 			lf.get(i).setPa(2);
 		}
-//<<<<<<< .mine
 		
 		Integer[][] leArg0;
 		if(arg0.length > 0) {
@@ -145,7 +142,6 @@ public class StrategyManager implements FruitSaladAi {
 		}
 		// creation de la map
 		Proxy.getProxy().initMap(architecture, fruits, buildings, limitCherry, limitKiwi, limitNut, vitaminGoal, maxNbTurns);
-		//runningStrategy.start();
 	}
 
 
