@@ -94,9 +94,9 @@ public class StrategyManager implements FruitSaladAi {
 		
 		Proxy.getProxy().updateMap(leArg0, leArg1, leArg2, leArg3, leArg4);
 		
-		Strategy.AdequacyResult bestAdqResult;
+		//Strategy.AdequacyResult bestAdqResult;
 		List<Fruit> availableFruits = Proxy.getProxy().getFruits(true);
-		Strategy bestStrategy;
+	//	Strategy bestStrategy;
 		// choix des strategies
 		/*do{
 			bestAdqResult = null;

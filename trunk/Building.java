@@ -1,9 +1,5 @@
 package fuzzycode;
 
-import java.awt.Point;
-
-import game.Api;
-
 public class Building {
 
 	private Integer type;
