@@ -3,17 +3,14 @@ package fuzzycode;
 import game.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import fuzzycode.Strategy;
+import fuzzycode.Strategy.AdequacyResult;
 
 public class StrategyManager implements FruitSaladAi {
 
-	// strategies en activite
-	// private List<Strategy> runningStrategies;
-	Strategy runningStrategy;
+	public static final Double MIN_ADQ_RESULT = 0.2;	
 	// strategies en attente
 	private List<Strategy> pendingStrategies;
 	
@@ -21,7 +18,6 @@ public class StrategyManager implements FruitSaladAi {
 		// ajouter ici les différentes stratégies
 		pendingStrategies = new ArrayList<Strategy>();
 		pendingStrategies.add( new DummyStrategy() );
-		runningStrategy = pendingStrategies.get(0);
 	}
 
 	@Override
@@ -43,23 +39,35 @@ public class StrategyManager implements FruitSaladAi {
 
 	@Override
 	public void playTurn(int[][] arg0, int[] arg1, int[][] arg2, int[][] arg3, int[][] arg4) {
+		Proxy.getProxy().updateMap(arg0, arg1, arg2, arg3, arg4);
 		List<Fruit> lf = Proxy.getProxy().getFruits(true);
 		for (int i = 0; i < lf.size(); i++) {
 			lf.get(i).setPa(2);
 		}
-		// choix de la meilleure strategie
-		// pour commencer on trouve juste la meilleure strategie, après on verra 
-		// si on veut pouvoir en mettre plusieurs en même temps...
-		runningStrategy.resetAdequacyCache();
-		for( Strategy s : pendingStrategies ){
-			s.resetAdequacyCache();
-			if( s.adequacy() > runningStrategy.adequacy() ){
-				runningStrategy = s;
-			}
-		}
-		//lance la stratégie choisie;
-		runningStrategy.run();
 		
+		List<AdequacyResult> strategiesToRun = new ArrayList<AdequacyResult>();
+		
+		Strategy.AdequacyResult bestAdqResult;
+		List<Fruit> availableFruits = Proxy.getProxy().getFruits(true);
+		Strategy bestStrategy;
+		// choix des strategies
+		do{
+			bestAdqResult = null;
+			bestStrategy = null;
+			for( Strategy s : pendingStrategies ){
+				Strategy.AdequacyResult adqResult = s.adequacy(availableFruits);   
+				if((bestAdqResult == null)||(bestAdqResult.value < adqResult.value)){
+					if(adqResult.value > MIN_ADQ_RESULT){
+						bestStrategy = s;
+						bestAdqResult = adqResult;
+					}
+				}
+			}
+			if( bestStrategy != null  ){ 
+				bestStrategy.run(); 
+				availableFruits.removeAll(bestAdqResult.neededFruits);
+			}
+		}while(bestStrategy != null);
 	}
 
 	@Override
