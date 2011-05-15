@@ -164,6 +164,29 @@ public abstract class Strategy {
 	}
 	
 
+	protected Fruit closestFruit(int x, int y, List<Fruit> fruits){
+		Integer closestDistance = 99999;
+		Fruit closestFruit = null;
+		for(Fruit f:fruits){
+			Integer d = Math.min(Math.abs(x - f.getX()), Math.abs(y - f.getY()));
+			if(d < closestDistance){
+				closestDistance = d;
+				closestFruit = f;
+			}
+		}
+		return closestFruit;
+	}
+	
+	protected List<Fruit> getFruitsInRegion(int x, int y, int radius, List<Fruit> availableFruits){
+		List<Fruit> result = new ArrayList<Fruit>();
+		for(Fruit fruit : availableFruits){
+			if( Math.min(Math.abs(x - fruit.getX()), Math.abs(y - fruit.getY())) < radius ){
+				result.add(fruit);
+			}
+		}
+		return result;
+	}
+	
 	protected void updateDangerLevel() {
 		Proxy ProxyAPI = Proxy.getProxy();
 		List<Fruit> enemies = ProxyAPI.getFruits(false);
