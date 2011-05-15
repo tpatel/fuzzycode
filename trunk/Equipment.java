@@ -80,12 +80,9 @@ public class Equipment {
 		this.weightAmmo = weightAmmo;
 	}
 
-	public Integer getSellValue() {
-		return sellValue;
-	}
-
-	public void setSellValue(Integer sellValue) {
-		this.sellValue = sellValue;
+	public Double getSellValue() {
+		Integer ammoMissing = getAmmoMax() - getAmmo();
+		return sellValue - ammoMissing * getAmmoValue();
 	}
 
 	public Equipment(Integer type) {
