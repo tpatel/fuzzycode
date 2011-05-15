@@ -526,7 +526,7 @@ public class Proxy {
 	private void moveFruit(Fruit fruit, Integer oldX, Integer oldY,
 			Integer newX, Integer newY) {
 		if (oldX > 0 && oldY > 0) {
-			removeFruit(fruit);
+			removeFruitFromMap(fruit);
 		}
 		fruit.setX(newX);
 		fruit.setY(newY);
@@ -534,8 +534,13 @@ public class Proxy {
 
 	}
 
-	private void removeFruit(Fruit fruit) {
+	private void removeFruitFromMap(Fruit fruit) {
 		getCell(fruit.getX(), fruit.getY()).setFruit(null);	
+		
+	}
+
+	private void removeFruit(Fruit fruit) {
+		removeFruitFromMap(fruit);
 		fruits.remove(fruit.getId());
 	}
 
