@@ -1,5 +1,6 @@
 package fuzzycode;
 
+import java.util.ArrayList;
 import java.util.List;
 import game.Api;
 
@@ -96,6 +97,7 @@ public class Fruit {
 		this.sugar = 0;
 		this.curVitamins = 0;
 		this.setType(type);
+		this.equipments = new ArrayList<Equipment>();
 	}
 
 	public Integer getCurVitamins() {
