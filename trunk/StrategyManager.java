@@ -43,7 +43,10 @@ public class StrategyManager implements FruitSaladAi {
 
 	@Override
 	public void playTurn(int[][] arg0, int[] arg1, int[][] arg2, int[][] arg3, int[][] arg4) {
-		
+		List<Fruit> lf = Proxy.getProxy().getFruits(true);
+		for (int i = 0; i < lf.size(); i++) {
+			lf.get(i).setPa(2);
+		}
 		// choix de la meilleure strategie
 		// pour commencer on trouve juste la meilleure strategie, après on verra 
 		// si on veut pouvoir en mettre plusieurs en même temps...
