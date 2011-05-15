@@ -178,7 +178,7 @@ public class Proxy {
 		Equipment equip = null;
 		Chest chest = null;
 		SugarDrop sDrop = null;
-
+		
 		// ==================== Nouveaux objets
 		for (int i = 0; i < newObjects.length; ++i) {
 			switch (newObjects[i][Api.OBJECT_TYPE]) {
@@ -576,6 +576,7 @@ public class Proxy {
 		fruit.setX(x);
 		fruit.setY(y);
 		
+		System.out.println("Creation" + isAmi + " " + x + " " + y);
 		this.getCell(x, y).setFruit(fruit);
 		fruits.put(identifiant, fruit);
 		getCell(x, y).setFruit(fruit);

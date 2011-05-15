@@ -86,7 +86,7 @@ public class Equipment {
 	}
 
 	public Equipment(Integer type) {
-
+		this.type = type;
 		this.type = type;
 		
 		if (this.type == Api.EQUIPMENT_CUTTER) {

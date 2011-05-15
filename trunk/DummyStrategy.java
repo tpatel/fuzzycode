@@ -12,13 +12,30 @@ public class DummyStrategy extends Strategy {
 
 	@Override
 	public void run() {
+		/*for(Integer j = Proxy.getProxy().getMapHeight() - 1 ; j >= 0 ; j--) {
+			for(Integer i = 0 ; i < Proxy.getProxy().getMapWidth() ; i++) {
+				Cell c = Proxy.getProxy().getCell(i, j);
+				//System.out.println("" + i + " " + j + " " + c + " " + c.isWall());
+				if(c.isWall())				System.out.print("#");
+				else if(c.hasEquipments())	System.out.print("E");
+				else if(c.hasBuilding())	System.out.print("B");
+				else if(c.hasChest())		System.out.print("C");
+				else if(c.hasFruit()) {
+					if(c.getFruit().isFriend())	System.out.print("F");
+					else						System.out.print("Z");
+				}
+				else if(c.hasSugar())		System.out.print("S");
+				else						System.out.print(" ");
+			}
+			System.out.println();
+		}*/
+
 		//System.out.println("Run");
 		List<Fruit> lf = Proxy.getProxy().getFruits(true);
 		for (int i = 0; i < lf.size(); i++) {
 			Fruit f = lf.get(i);
 			for (int l = 0; l < 2; l++) {
-				
-				System.out.println("goo");
+					System.out.println("goo");
 				int min = 10000;
 				int maxk = 0;
 				int maxj = 0;
@@ -43,8 +60,8 @@ public class DummyStrategy extends Strategy {
 				}
 			}
 		}
-		 
 	}
+	
 	class Triplet {
 		public int x;
 		public int y;
