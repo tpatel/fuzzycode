@@ -92,7 +92,7 @@ public class Fruit {
 
 		this.x = -1;
 		this.y = -1;
-		this.friend = false;
+		this.friend = true;
 		this.pa = 2;
 		this.sugar = 0;
 		this.curVitamins = 0;
